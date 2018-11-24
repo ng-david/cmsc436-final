@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScheduleFragment">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TimePicker
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </TimePicker>
+
+            <!-- TODO: Update blank fragment layout -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/time"
+                android:id="@+id/button_group"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+                <CheckBox
+                    android:id="@+id/monday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mon"/>
+                <CheckBox
+                    android:id="@+id/tuesday"
+                    android:layout_toRightOf="@+id/monday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tues"/>
+                <CheckBox
+                    android:id="@+id/wednesday"
+                    android:layout_toRightOf="@+id/tuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wed"/>
+                <CheckBox
+                    android:id="@+id/thursday"
+                    android:layout_toRightOf="@+id/wednesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thurs"/>
+                <CheckBox
+                    android:id="@+id/friday"
+                    android:layout_toRightOf="@+id/thursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fri"/>
+            </RelativeLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/button_group"
+                    android:text="Save"/>
+
+            </RelativeLayout>
+
+    </ScrollView>
+
+</FrameLayout>
