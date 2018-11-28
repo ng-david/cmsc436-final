@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "591104608686",
+    "firebase_url": "https://recyclingapp-33a52.firebaseio.com",
+    "project_id": "recyclingapp-33a52",
+    "storage_bucket": "recyclingapp-33a52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591104608686:android:178323666679695a",
+        "android_client_info": {
+          "package_name": "com.example.msoohyun88.recyclinghelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591104608686-8jtfu4ilmhaaobetg5mvhonpsbl4t9ln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhF2K4czuulJQUnnvS6xM8tUTk1VUneT4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
