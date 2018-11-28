@@ -16,8 +16,9 @@
             <TimePicker
                 android:id="@+id/time"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </TimePicker>
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"></TimePicker>
 
             <!-- TODO: Update blank fragment layout -->
             <RelativeLayout
@@ -27,35 +28,36 @@
                 android:id="@+id/button_group"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp">
+
                 <CheckBox
                     android:id="@+id/monday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mon"/>
+                    android:text="@string/monday" />
                 <CheckBox
                     android:id="@+id/tuesday"
                     android:layout_toRightOf="@+id/monday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tues"/>
+                    android:text="@string/tuesday" />
                 <CheckBox
                     android:id="@+id/wednesday"
                     android:layout_toRightOf="@+id/tuesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wed"/>
+                    android:text="@string/wednesday" />
                 <CheckBox
                     android:id="@+id/thursday"
                     android:layout_toRightOf="@+id/wednesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thurs"/>
+                    android:text="@string/thursday" />
                 <CheckBox
                     android:id="@+id/friday"
                     android:layout_toRightOf="@+id/thursday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fri"/>
+                    android:text="@string/friday" />
             </RelativeLayout>
 
                 <Button
@@ -63,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/button_group"
-                    android:text="Save"/>
+                    android:text="@string/save" />
 
             </RelativeLayout>
 
