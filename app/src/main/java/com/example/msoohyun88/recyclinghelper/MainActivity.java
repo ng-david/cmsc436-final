@@ -43,15 +43,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //if the user hasn't logged in, start the log in activity.
-        if (!logged_in) {
-            Intent login = new Intent(this, LoginActivity.class);
-            startActivityForResult(login, LOG_IN);
-
-            logged_in = true;
-            //TODO: get the bundle from activity result of logged_in activity (user info)
-        }
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
