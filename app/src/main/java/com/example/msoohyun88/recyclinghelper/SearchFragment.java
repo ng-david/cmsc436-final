@@ -3,6 +3,7 @@ package com.example.msoohyun88.recyclinghelper;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -43,9 +44,6 @@ public class SearchFragment extends Fragment {
 
     private final String TAG = "SearchFragment";
 
-    private OnFragmentInteractionListener mListener;
-    private ListView mListView;
-
     ArrayList<Item> itemList;
     private ArrayList<String> filteredList;
     private ListView listview;
@@ -53,16 +51,6 @@ public class SearchFragment extends Fragment {
 
     public SearchFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment ProgressFragment.
-     */
-    public static ProgressFragment newInstance() {
-        ProgressFragment fragment = new ProgressFragment();
-        return fragment;
     }
 
     @Override
@@ -74,17 +62,14 @@ public class SearchFragment extends Fragment {
     // TODO make it case insensitive
     // TODO make it optimized? not on every character change
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         // Get list view
-        listview = (ListView) view.findViewById(R.id.listview);
-
-        // Get reference to the loading activityIndicator
-        final RelativeLayout activityIndicator =  view.findViewById(R.id.activityIndicator);
+        listview = view.findViewById(R.id.listview);
 
         // Hold a list of the DB items
         itemList = new ArrayList<>();
@@ -92,14 +77,44 @@ public class SearchFragment extends Fragment {
         // Hold a list of items to render
         filteredList = new ArrayList<>();
 
+        // Listener for DB read/changes
+        setUpFirebaseListeners(view);
+
+        // Text Field Change
+        setUpSearchInput(view);
+
+        return view;
+    }
+
+    // Rerender list view depending on search input
+    private void setUpSearchInput(View view) {
+        searchField = view.findViewById(R.id.editText);
+        searchField.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                rerenderListView();
+            }
+        });
+    }
+
+    // Update local lists when firebase returns data or changes to data
+    private void setUpFirebaseListeners(View view) {
+        // Get reference to the loading activityIndicator
+        final RelativeLayout activityIndicator =  view.findViewById(R.id.activityIndicator);
+
         // Communicate with FB
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference itemRef = database.getReference("items");
-
-        // Listener for DB read/changes
         itemRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 // Populate itemList with Items
                 Map<String, ArrayList<Map<String, String>>> map = (Map) dataSnapshot.getValue();
@@ -125,24 +140,6 @@ public class SearchFragment extends Fragment {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-        // Text Field Change
-        searchField = (EditText) view.findViewById(R.id.editText);
-        searchField.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                rerenderListView();
-            }
-        });
-
-        return view;
     }
 
     private void rerenderListView() {
@@ -183,7 +180,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     /**
