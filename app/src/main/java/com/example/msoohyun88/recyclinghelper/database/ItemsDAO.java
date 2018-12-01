@@ -12,6 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
+@Deprecated
 public class ItemsDAO {
 
     private String TAG = "ItemsDAO";
@@ -51,9 +52,9 @@ public class ItemsDAO {
                 }
 
                 Log.w(TAG, "Successfully updated local database object");
-//                Log.w(TAG, recycleList.toString());
-//                Log.w(TAG, trashList.toString());
-//                Log.w(TAG, compostList.toString());
+                Log.w(TAG, recycleList.toString());
+                Log.w(TAG, trashList.toString());
+                Log.w(TAG, compostList.toString());
 
             }
 
@@ -65,6 +66,7 @@ public class ItemsDAO {
     }
 
     public ArrayList<Item> getRecycleList() {
+        Log.w(TAG, "Getting recycle list " + recycleList.toString());
         return recycleList;
     }
 

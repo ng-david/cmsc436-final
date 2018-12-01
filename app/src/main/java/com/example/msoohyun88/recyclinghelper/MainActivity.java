@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(schedule);
                     return true;
                 case R.id.navigation_notifications:
-                    ItemFragment list = new ItemFragment();
-                    loadFragment(list);
+                    SearchFragment search = new SearchFragment();
+                    loadFragment(search);
                     return true;
             }
             return false;
