@@ -115,7 +115,9 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         //set the item name set to the first item in the list
-        mItemName.setText(itemList.get(0).getName());
+
+        //mItemName.setText(itemList.get(0).getName());
+
     }
 }
 

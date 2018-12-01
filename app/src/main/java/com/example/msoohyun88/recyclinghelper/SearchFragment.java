@@ -46,9 +46,9 @@ public class SearchFragment extends Fragment {
     private final String TAG = "SearchFragment";
 
     ArrayList<Item> itemList;
-    private ArrayList<String> filteredList;
-    private ListView listview;
-    private EditText searchField;
+    public ArrayList<String> filteredList;
+    public ListView listview;
+    public EditText searchField;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -165,7 +165,9 @@ public class SearchFragment extends Fragment {
         // Update the list with latest filteredList
         ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
         listview.setAdapter(adapter);
+
     }
+
 
     @Override
     public void onAttach(Context context) {

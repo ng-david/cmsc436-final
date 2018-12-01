@@ -24,6 +24,7 @@ import java.util.List;
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
+ * @deprecated
  */
 public class ItemFragment extends Fragment implements SearchView.OnQueryTextListener {
 
