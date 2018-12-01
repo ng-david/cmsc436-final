@@ -99,6 +99,16 @@ public class ItemFragment extends Fragment implements SearchView.OnQueryTextList
         mListener = null;
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        return false;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
