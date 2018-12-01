@@ -42,14 +42,11 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(mScheduleFragment);
 
                     return true;
-                case R.id.navigation_notifications:
-
-                    if(mItemFragment == null){
-                        mItemFragment = new ItemFragment();
-                    }
-
-                    loadFragment(mItemFragment);
-
+              case R.id.navigation_notifications:
+                
+                    SearchFragment search = new SearchFragment();
+                    loadFragment(search);
+                
                     return true;
             }
             return false;
