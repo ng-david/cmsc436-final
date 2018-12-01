@@ -42,8 +42,8 @@ public class Alarm extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_1_ID)
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_one)
-                    .setContentTitle("Recycling Reminder Title")
-                    .setContentText("Recycling Reminder Text")
+                    .setContentTitle("RECYCLE TIME")
+                    .setContentText("Remember 2 recycle")
                     .setAutoCancel(true);
 
         notificationManager.notify(MY_NOTIFICATION_ID, builder.build());
