@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ProgressFragment mProgressFragment;
+    private ScheduleFragment mScheduleFragment;
+    private ItemFragment mItemFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -23,16 +26,30 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    ProgressFragment progress = new ProgressFragment();
-                    loadFragment(progress);
+
+                    if(mProgressFragment == null){
+                        mProgressFragment = new ProgressFragment();
+                    }
+
+                    loadFragment(mProgressFragment);
                     return true;
                 case R.id.navigation_dashboard:
-                    ScheduleFragment schedule = new ScheduleFragment();
-                    loadFragment(schedule);
+
+                    if(mScheduleFragment == null){
+                        mScheduleFragment = new ScheduleFragment();
+                    }
+
+                    loadFragment(mScheduleFragment);
+
                     return true;
                 case R.id.navigation_notifications:
-                    ItemFragment list = new ItemFragment();
-                    loadFragment(list);
+
+                    if(mItemFragment == null){
+                        mItemFragment = new ItemFragment();
+                    }
+
+                    loadFragment(mItemFragment);
+
                     return true;
             }
             return false;
@@ -46,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        mProgressFragment = new ProgressFragment();
+        loadFragment(mProgressFragment);
     }
 
     @Override

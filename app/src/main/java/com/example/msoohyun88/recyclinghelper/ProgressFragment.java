@@ -8,6 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -19,16 +24,12 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProgressFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Button mQuizButton;
+    private TextView mScore;
+    private ImageView mForestGraphic;
+    public static final int REQUEST = 111;
 
     public ProgressFragment() {
         // Required empty public constructor
@@ -38,16 +39,12 @@ public class ProgressFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ProgressFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProgressFragment newInstance(String param1, String param2) {
+    public static ProgressFragment newInstance() {
         ProgressFragment fragment = new ProgressFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,16 +53,28 @@ public class ProgressFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View returnView = inflater.inflate(R.layout.fragment_progress, container, false);
+        mQuizButton = returnView.findViewById(R.id.quiz_button);
+        mScore = returnView.findViewById(R.id.score_text);
+        mForestGraphic = returnView.findViewById(R.id.forest_graphic);
+
+        mQuizButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), QuizActivity.class);
+                startActivityForResult(intent, REQUEST);
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_progress, container, false);
+        return returnView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
