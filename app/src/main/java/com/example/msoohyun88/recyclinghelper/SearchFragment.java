@@ -41,14 +41,15 @@ import java.util.Map;
  */
 public class SearchFragment extends Fragment {
 
+    private final String TAG = "SearchFragment";
+
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
-    ArrayList<String> list;
-    ArrayList<String> filteredList;
-    ListView listview;
-    EditText searchField;
-
     private ArrayList<Item> recycleList;
+    private ArrayList<String> filteredList;
+    private ListView listview;
+    private EditText searchField;
+
 
 
     public SearchFragment() {
@@ -70,40 +71,38 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    // TODO clean up this code, include all item types, remove redundancies, refactor listadapter changes
+    // TODO include all item type
     // TODO make it case insensitive
+    // TODO make it optimized? not on every character change
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+        // Get list view
         listview = (ListView) view.findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
 
-        list = new ArrayList<String>();
-//        for (int i = 0; i < values.length; ++i) {
-//            list.add(values[i]);
-//        }
+        // Get reference to the loading activityIndicator
+        final RelativeLayout activityIndicator =  view.findViewById(R.id.activityIndicator);
 
-
-        // YES
+        // Hold a list of the DB items
         recycleList = new ArrayList<>();
+
+        // Hold a list of items to render
+        filteredList = new ArrayList<>();
+
+        // Communicate with FB
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference itemRef = database.getReference("items");
 
-        final Fragment thisFrag = this;
-
-        final RelativeLayout activityIndicator =  view.findViewById(R.id.activityIndicator);
-
+        // Listener for DB read/changes
         itemRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                // Populate recycleList with Items
                 Map<String, ArrayList<Map<String, String>>> map = (Map) dataSnapshot.getValue();
                 for (String k : map.keySet()) {
                     ArrayList<Map<String, String>> currList = map.get(k);
@@ -115,32 +114,19 @@ public class SearchFragment extends Fragment {
                     }
                 }
 
-                for (int i = 0; i < recycleList.size(); i++) {
-                    list.add(recycleList.get(i).getName());
-                }
-                ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
-                listview.setAdapter(adapter);
-
+                // If we have data, hide the activityIndicator
                 activityIndicator.setVisibility(View.GONE);
 
-                Log.w("HELLO", "Successfully updated local database object");
+                rerenderListView();
+
+                Log.w(TAG, "Successfully updated local list");
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                Log.w("HELLO", "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-
-        for (int i = 0; i < recycleList.size(); i++) {
-            list.add(recycleList.get(i).getName());
-        }
-        // END YES
-
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
-
 
         // Text Field Change
         searchField = (EditText) view.findViewById(R.id.editText);
@@ -150,29 +136,37 @@ public class SearchFragment extends Fragment {
             public void afterTextChanged(Editable s) {}
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                if(s.length() != 0) {
-                    filteredList = new ArrayList<>();
-                    for (String item : list) {
-                        if (item.indexOf(searchField.getText().toString()) != -1) {
-                            Log.w("HELLO", "Successful find, filtering for " + searchField.getText().toString());
-                            filteredList.add(item);
-                        }
-                    }
-
-                    ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
-                    listview.setAdapter(adapter);
-                }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                rerenderListView();
             }
         });
 
         return view;
+    }
+
+    private void rerenderListView() {
+        filteredList = new ArrayList<>();
+        if(searchField.getText().toString().length() != 0) {
+            // Filter items where names don't match
+            for (Item item : recycleList) {
+                if (item.getName().toUpperCase().indexOf(searchField.getText().toString().toUpperCase()) != -1) {
+                    Log.w(TAG, "Successful find while filtering for " + searchField.getText().toString());
+                    filteredList.add(item.getName());
+                }
+            }
+        } else {
+            // Grab all items
+            for (Item item : recycleList) {
+                filteredList.add(item.getName());
+            }
+        }
+
+        // Update the list with latest filteredList
+        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
+        listview.setAdapter(adapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
