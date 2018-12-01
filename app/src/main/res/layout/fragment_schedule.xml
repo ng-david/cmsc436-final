@@ -18,7 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"></TimePicker>
+                android:layout_alignParentTop="true"
+                android:gravity="center"></TimePicker>
 
             <!-- TODO: Update blank fragment layout -->
             <RelativeLayout
@@ -27,7 +28,8 @@
                 android:layout_below="@+id/time"
                 android:id="@+id/button_group"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="40dp">
 
                 <CheckBox
                     android:id="@+id/monday"
@@ -61,11 +63,14 @@
             </RelativeLayout>
 
                 <Button
+                    android:id="@+id/buttonSaveTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/button_group"
                     android:text="@string/save" />
+
+
 
             </RelativeLayout>
 

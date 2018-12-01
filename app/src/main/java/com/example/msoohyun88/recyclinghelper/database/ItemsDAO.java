@@ -38,7 +38,7 @@ public class ItemsDAO {
                 for (String k : map.keySet()) {
                     ArrayList<Map<String, String>> currList = map.get(k);
                     for (Map<String, String> itemMap : currList) {
-                        Item item = new Item(itemMap.get("name"), itemMap.get("details"));
+                        Item item = new Item(itemMap.get("name"), itemMap.get("details"), k);
                         if (k.equals("recycle")) {
                             recycleList.add(item);
                         } else if (k.equals("trash")) {
