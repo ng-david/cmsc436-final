@@ -1,6 +1,7 @@
 package com.example.msoohyun88.recyclinghelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -105,5 +106,18 @@ public class ProgressFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //TODO: get the result (number of correct) here
+        //if (requestCode == request_Code) {
+        //    if (resultCode == RESULT_OK) {
+        //        String returnedResult = data.getData().toString();
+                // OR
+                // String returnedResult = data.getDataString();
+        //    }
+        //}
     }
 }

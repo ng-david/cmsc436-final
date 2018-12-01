@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QuizActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/material_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@+id/material_image"
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioGroup
+            android:layout_below="@id/item_name"
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/trash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trash"/>
+
+            <RadioButton
+                android:id="@+id/recyclable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recyclable"/>
+
+            <RadioButton
+                android:id="@+id/compost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compost"/>
+
+        </RadioGroup>
+
+        <Button
+            android:layout_below="@id/radio_group"
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"/>
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
