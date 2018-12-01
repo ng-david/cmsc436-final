@@ -16,7 +16,6 @@ import android.view.ViewGroup;
  * to handle interaction events.
  * Use the {@link ItemDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class ItemDetailsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +28,10 @@ public class ItemDetailsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    public ItemDetailsFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -47,9 +50,6 @@ public class ItemDetailsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    public ItemDetailsFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class ItemDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_item_details, container, false);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
