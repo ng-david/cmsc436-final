@@ -106,7 +106,7 @@ public class SearchFragment extends Fragment {
                 for (String k : map.keySet()) {
                     ArrayList<Map<String, String>> currList = map.get(k);
                     for (Map<String, String> itemMap : currList) {
-                        Item item = new Item(itemMap.get("name"), itemMap.get("details"));
+                        Item item = new Item(itemMap.get("name"), itemMap.get("details"), "TODO"); // TODO make the category
                         itemList.add(item);
                     }
                 }
