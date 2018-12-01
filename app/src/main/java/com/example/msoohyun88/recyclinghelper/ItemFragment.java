@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import android.widget.SearchView;
 
 
 import com.example.msoohyun88.recyclinghelper.dummy.DummyContent;
@@ -24,7 +25,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ItemFragment extends Fragment {
+public class ItemFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -78,15 +79,6 @@ public class ItemFragment extends Fragment {
     }
 
 
-    public boolean onQueryTextSubmit(String query) {
-        //Utils.LogDebug("Submitted: "+query);
-        return true;
-    }
-
-    public boolean onQueryTextChange(String newText) {
-        //Utils.LogDebug("Changed: "+newText);
-        return false;
-    }
 
 
 
