@@ -45,12 +45,11 @@ public class SearchFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
-    private ArrayList<Item> recycleList;
+
+    ArrayList<Item> itemList;
     private ArrayList<String> filteredList;
     private ListView listview;
     private EditText searchField;
-
-
 
     public SearchFragment() {
         // Required empty public constructor
@@ -88,7 +87,7 @@ public class SearchFragment extends Fragment {
         final RelativeLayout activityIndicator =  view.findViewById(R.id.activityIndicator);
 
         // Hold a list of the DB items
-        recycleList = new ArrayList<>();
+        itemList = new ArrayList<>();
 
         // Hold a list of items to render
         filteredList = new ArrayList<>();
@@ -102,15 +101,13 @@ public class SearchFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // Populate recycleList with Items
+                // Populate itemList with Items
                 Map<String, ArrayList<Map<String, String>>> map = (Map) dataSnapshot.getValue();
                 for (String k : map.keySet()) {
                     ArrayList<Map<String, String>> currList = map.get(k);
                     for (Map<String, String> itemMap : currList) {
                         Item item = new Item(itemMap.get("name"), itemMap.get("details"));
-                        if (k.equals("recycle")) {
-                            recycleList.add(item);
-                        }
+                        itemList.add(item);
                     }
                 }
 
@@ -151,7 +148,7 @@ public class SearchFragment extends Fragment {
         filteredList = new ArrayList<>();
         if(searchField.getText().toString().length() != 0) {
             // Filter items where names don't match
-            for (Item item : recycleList) {
+            for (Item item : itemList) {
                 if (item.getName().toUpperCase().indexOf(searchField.getText().toString().toUpperCase()) != -1) {
                     Log.w(TAG, "Successful find while filtering for " + searchField.getText().toString());
                     filteredList.add(item.getName());
@@ -159,7 +156,7 @@ public class SearchFragment extends Fragment {
             }
         } else {
             // Grab all items
-            for (Item item : recycleList) {
+            for (Item item : itemList) {
                 filteredList.add(item.getName());
             }
         }
@@ -167,13 +164,6 @@ public class SearchFragment extends Fragment {
         // Update the list with latest filteredList
         ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
         listview.setAdapter(adapter);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
