@@ -9,6 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.support.v7.widget.SearchView;
+
+
 
 import com.example.msoohyun88.recyclinghelper.dummy.DummyContent;
 import com.example.msoohyun88.recyclinghelper.dummy.DummyContent.DummyItem;
@@ -75,6 +81,15 @@ public class ItemFragment extends Fragment {
     }
 
 
+    @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Place an action bar item for searching.
+        MenuItem item = menu.add("Search");
+        item.setIcon(android.R.drawable.ic_menu_search);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+      //  SearchView sv = new SearchView(getActivity());
+     //   sv.setOnQueryTextListener(this);
+       // item.setActionView(sv);
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
