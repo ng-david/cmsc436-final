@@ -14,6 +14,7 @@
             android:layout_height="match_parent">
 
             <TimePicker
+                style="@style/TimePicker"
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,13 +72,14 @@
                     android:text="kms" />
             </RelativeLayout>
 
-                <Button
-                    android:id="@+id/buttonSaveTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/button_group"
-                    android:text="@string/save" />
+            <Button
+                android:id="@+id/buttonSaveTime"
+                style="@style/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/button_group"
+                android:layout_centerHorizontal="true"
+                android:text="@string/save" />
 
 
 
