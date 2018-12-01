@@ -5,12 +5,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.example.msoohyun88.recyclinghelper.database.Item;
 import com.example.msoohyun88.recyclinghelper.database.ItemsDAO;
@@ -38,6 +43,10 @@ public class SearchFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
+    ArrayList<String> list;
+    ArrayList<String> filteredList;
+    ListView listview;
+    EditText searchField;
 
     private ArrayList<Item> recycleList;
 
@@ -61,20 +70,22 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    // TODO clean up this code, include all item types, remove redundancies, refactor listadapter changes
+    // TODO make it case insensitive
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        ListView listview = (ListView) view.findViewById(R.id.listview);
+        listview = (ListView) view.findViewById(R.id.listview);
         String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
                 "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
                 "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
                 "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
                 "Android", "iPhone", "WindowsMobile" };
 
-        ArrayList<String> list = new ArrayList<String>();
+        list = new ArrayList<String>();
 //        for (int i = 0; i < values.length; ++i) {
 //            list.add(values[i]);
 //        }
@@ -87,6 +98,8 @@ public class SearchFragment extends Fragment {
 
         final Fragment thisFrag = this;
 
+        final RelativeLayout activityIndicator =  view.findViewById(R.id.activityIndicator);
+
         itemRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -96,13 +109,19 @@ public class SearchFragment extends Fragment {
                     ArrayList<Map<String, String>> currList = map.get(k);
                     for (Map<String, String> itemMap : currList) {
                         Item item = new Item(itemMap.get("name"), itemMap.get("details"));
-                        if (k.equals("compost")) {
+                        if (k.equals("recycle")) {
                             recycleList.add(item);
                         }
                     }
                 }
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(thisFrag).attach(thisFrag).commit();
+
+                for (int i = 0; i < recycleList.size(); i++) {
+                    list.add(recycleList.get(i).getName());
+                }
+                ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
+                listview.setAdapter(adapter);
+
+                activityIndicator.setVisibility(View.GONE);
 
                 Log.w("HELLO", "Successfully updated local database object");
             }
@@ -121,6 +140,37 @@ public class SearchFragment extends Fragment {
 
         ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
         listview.setAdapter(adapter);
+
+
+        // Text Field Change
+        searchField = (EditText) view.findViewById(R.id.editText);
+        searchField.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() != 0) {
+                    filteredList = new ArrayList<>();
+                    for (String item : list) {
+                        if (item.indexOf(searchField.getText().toString()) != -1) {
+                            Log.w("HELLO", "Successful find, filtering for " + searchField.getText().toString());
+                            filteredList.add(item);
+                        }
+                    }
+
+                    ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
+                    listview.setAdapter(adapter);
+                }
+            }
+        });
 
         return view;
     }
