@@ -1,6 +1,5 @@
 package com.example.msoohyun88.recyclinghelper;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import com.example.msoohyun88.recyclinghelper.database.Item;
+import com.example.msoohyun88.recyclinghelper.database.ItemsDAO;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static boolean logged_in = false;
-    private static final int LOG_IN = 0;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
@@ -51,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        //login here?
+        // NOTE: Example of initializing database access object
+        ItemsDAO db = new ItemsDAO();
+        // NOTE: Example of getting information from it
+        ArrayList<Item> recycleList = db.getRecycleList();
+
     }
 
     private void loadFragment(Fragment fragment) {
