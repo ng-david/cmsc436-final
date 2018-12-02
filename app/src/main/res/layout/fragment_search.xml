@@ -23,7 +23,8 @@
             android:ems="10"
             android:hint="Search and filter..."
             android:inputType="text"
-            android:text="" />
+            android:text=""
+            android:textSize="24sp" />
 
         <RelativeLayout
             android:id="@+id/activityIndicator"

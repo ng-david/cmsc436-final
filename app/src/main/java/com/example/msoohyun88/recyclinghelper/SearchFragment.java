@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.msoohyun88.recyclinghelper.database.Item;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -43,6 +46,7 @@ public class SearchFragment extends Fragment {
     private final String TAG = "SearchFragment";
 
     private ArrayList<Item> itemList;
+    private HashMap<String, String> categoriesMap;
     public ArrayList<Item> filteredList;
     public ListView listview;
     public EditText searchField;
@@ -70,8 +74,9 @@ public class SearchFragment extends Fragment {
         // Get list view
         listview = view.findViewById(R.id.listview);
 
-        // Hold a list of the DB items
+        // Hold a list and map of the DB items
         itemList = new ArrayList<>();
+        categoriesMap = new HashMap<>();
 
         // Hold a list of items to render
         filteredList = new ArrayList<>();
@@ -81,6 +86,15 @@ public class SearchFragment extends Fragment {
 
         // Text Field Change
         setUpSearchInput(view);
+
+        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+        footerView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.w(TAG, "WOW FOOTER CLICK");
+            }
+        });
+        listview.addFooterView(footerView);
 
         return view;
     }
@@ -120,8 +134,12 @@ public class SearchFragment extends Fragment {
                 for (String k : map.keySet()) {
                     ArrayList<Map<String, String>> currList = map.get(k);
                     for (Map<String, String> itemMap : currList) {
+
                         String category = k.equals("trash") ? "trash" : k.equals("compost") ? "compost" : "recycle";
+
                         Item item = new Item(itemMap.get("name"), itemMap.get("details"), category);
+
+                        categoriesMap.put(item.getName(), item.getCategory());
                         itemList.add(item);
                     }
                 }
@@ -161,7 +179,30 @@ public class SearchFragment extends Fragment {
         Collections.sort(filteredList);
 
         // Update the list with latest filteredList
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
+        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.list_item, R.id.myItemName, filteredList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                View view = super.getView(position, convertView, parent);
+
+                TextView nameTextView = view.findViewById(R.id.myItemName);
+                String name = nameTextView.getText().toString();
+                String category = categoriesMap.get(name);
+                ImageView imageView = view.findViewById(R.id.listCategoryIcon);
+
+                if (category.equals("recycle")) {
+                    imageView.setImageResource(R.drawable.recycle);
+
+                } else if (category.equals("trash")) {
+                    imageView.setImageResource(R.drawable.trash);
+                } else {
+                    imageView.setImageResource(R.drawable.compost);
+
+                }
+
+                return view;
+            };
+        };
+
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,6 +219,7 @@ public class SearchFragment extends Fragment {
            loadFragment(mItemDetailsFragment);
            }
         });
+
     }
 
     private void loadFragment(Fragment fragment) {
