@@ -11,8 +11,12 @@ public class Item implements Comparable<Item> {
 
     public Item(String name, String details, String category) {
         this.name = name;
-        this.details = details;
         this.category = category;
+        if (details.equals("")) {
+            this.details = name + " should be disposed of in " + category + " bins.";
+        } else {
+            this.details = details;
+        }
     }
 
     public String getName() {
