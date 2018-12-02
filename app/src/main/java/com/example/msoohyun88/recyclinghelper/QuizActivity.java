@@ -40,6 +40,13 @@ public class QuizActivity extends AppCompatActivity {
 
     private ImageView mImageView;
     private TextView mItemName;
+    //private TextView mQuestionNumber;
+    private TextView mQuestionCorrect;
+
+    private TextView mCorrectOrIncorrect;
+    private TextView mDescription;
+    private Button mNextButton;
+
     private int numberCorrect;
     private int questionNumber;
     private ArrayList<Item> itemList;
@@ -53,6 +60,15 @@ public class QuizActivity extends AppCompatActivity {
         mTrashButton = (Button) findViewById(R.id.trash);
         mRecycleButton = (Button) findViewById(R.id.recyclable);
         mCompostButton = (Button) findViewById(R.id.compost);
+        //mQuestionNumber = (TextView) findViewById(R.id.question_number);
+        mQuestionCorrect = (TextView) findViewById(R.id.number_correct);
+
+        mCorrectOrIncorrect = (TextView) findViewById(R.id.correct_incorrect);
+        mDescription = (TextView) findViewById(R.id.description_text);
+        mNextButton = (Button) findViewById(R.id.next_button);
+        final RelativeLayout resultScreen = findViewById(R.id.after_submission_screen);
+        final RelativeLayout questionScreen = findViewById(R.id.question_screen);
+        resultScreen.setAlpha(0.0f);
 
         int primaryColor = getColor(R.color.colorPrimary);
         int greenColor = getColor(R.color.colorGreen);
@@ -66,30 +82,19 @@ public class QuizActivity extends AppCompatActivity {
         mCompostButton.setBackgroundColor(greenColor);
         mCompostButton.setTextColor(grey);
 
-        mImageView = (ImageView) findViewById(R.id.material_image);
+        //mImageView = (ImageView) findViewById(R.id.material_image);
         mItemName = (TextView) findViewById(R.id.item_name);
         itemList = new ArrayList<Item>();
 
         numberCorrect = 0;
         questionNumber = 0;
 
-        View.OnClickListener buttonClickListeners = new View.OnClickListener() {
+        mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String answer = ((Button)v).getText().toString().toLowerCase();
+                if (questionNumber == nQuizQuestions) {
 
-                //checks the answer key to make sure the answer is correct
-                if (chosenItemList.get(questionNumber).getCategory().equals(answer)) {
-                    numberCorrect++;
-                }
-
-                questionNumber++;
-
-                if(questionNumber == nQuizQuestions) {
-                    //if all the questions were answered, finish the activity
-
-                    //returning data to original main activity
                     Intent intent = new Intent();
                     intent.putExtra(RESULT_KEY, numberCorrect);
                     setResult(RESULT_OK, intent);
@@ -97,9 +102,64 @@ public class QuizActivity extends AppCompatActivity {
 
                 } else {
 
-                    //prepares next question and clears the check.
+                    resultScreen.animate().setStartDelay(0);
+                    questionScreen.animate().setStartDelay(300);
+                    resultScreen.animate().alpha(0.0f);
+                    questionScreen.animate().alpha(1.0f);
+
+                    mCompostButton.setEnabled(true);
+                    mTrashButton.setEnabled(true);
+                    mRecycleButton.setEnabled(true);
+                    mNextButton.setEnabled(false);
+
+                    questionScreen.bringToFront();
+
+                    mQuestionCorrect.setText(numberCorrect + "/" + questionNumber);
                     mItemName.setText(chosenItemList.get(questionNumber).getName());
                 }
+            }
+        });
+
+        View.OnClickListener buttonClickListeners = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String answer = ((Button)v).getText().toString().toLowerCase();
+                String actual_answer = chosenItemList.get(questionNumber).getCategory();
+
+                Log.i("QUIZ_ANSWERS", chosenItemList.get(questionNumber).getCategory());
+
+                //checks the answer key to make sure the answer is correct
+                if (actual_answer.equals(answer)) {
+                    numberCorrect++;
+
+                    mCorrectOrIncorrect.setText("Correct!");
+                    mCorrectOrIncorrect.setTextColor(getColor(R.color.colorGreen));
+                } else {
+                    mCorrectOrIncorrect.setText("Incorrect!");
+                    mCorrectOrIncorrect.setTextColor(getColor(R.color.colorRed));
+                }
+
+                String description = chosenItemList.get(questionNumber).getDetails();
+
+                if (description.equals("")) {
+                    description = "The correct answer is " + chosenItemList.get(questionNumber).getCategory() + ".";
+                }
+
+                mDescription.setText(description);
+                questionNumber++;
+
+                questionScreen.animate().setStartDelay(0);
+                resultScreen.animate().setStartDelay(300);
+                resultScreen.animate().alpha(1.0f);
+                questionScreen.animate().alpha(0.0f);
+
+                mCompostButton.setEnabled(false);
+                mTrashButton.setEnabled(false);
+                mRecycleButton.setEnabled(false);
+                mNextButton.setEnabled(true);
+
+                resultScreen.bringToFront();
             }
         };
 
@@ -166,8 +226,10 @@ public class QuizActivity extends AppCompatActivity {
             chosenItemList.add(itemList.get(current));
         }
 
+        mQuestionCorrect.setText(numberCorrect+"/"+questionNumber);
         //set the item name set to the first item in the list
         mItemName.setText(chosenItemList.get(0).getName());
+        Log.i("QUIZ_ANSWERS", chosenItemList.get(0).getCategory());
 
     }
 }
