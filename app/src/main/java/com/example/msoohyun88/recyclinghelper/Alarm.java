@@ -44,7 +44,7 @@ public class Alarm extends BroadcastReceiver {
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_one)
                     .setContentTitle("RECYCLE TIME")
-                    .setContentText("Remember 2 recycle")
+                    .setContentText("Remember to recycle!")
                     .setColor(Color.GREEN)
                     .setAutoCancel(true);
 

@@ -150,13 +150,12 @@ public class ScheduleFragment extends Fragment {
                 }
 
                 //DELETE LATER THIS FOR WEEKEND TESTING LMAO
-                if (((CheckBox)getView().findViewById(R.id.weekend)).isChecked()) {
+ /*               if (((CheckBox)getView().findViewById(R.id.weekend)).isChecked()) {
                     Calendar calSat = Calendar.getInstance();
                     calSat = makeCalendar(calSat, Calendar.SATURDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calSat.getTimeInMillis(), 6);
                     Toast.makeText(getContext(), "HAPPY DECEMBER", Toast.LENGTH_LONG).show();
-
-                }
+                }*/
 
             }
         });
