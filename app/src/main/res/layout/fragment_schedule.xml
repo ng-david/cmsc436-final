@@ -14,6 +14,7 @@
             android:layout_height="match_parent">
 
             <TimePicker
+                style="@style/TimePicker"
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -21,21 +22,22 @@
                 android:layout_alignParentTop="true"
                 android:gravity="center"></TimePicker>
 
-            <!-- TODO: Update blank fragment layout -->
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/time"
                 android:id="@+id/button_group"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="40dp"
-                android:layout_marginLeft="40dp">
+                android:layout_marginBottom="40dp">
+               <!-- android:layout_marginLeft="40dp"-->
+
 
                 <CheckBox
                     android:id="@+id/monday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/monday" />
+                    android:text="@string/monday"/>
                 <CheckBox
                     android:id="@+id/tuesday"
                     android:layout_toRightOf="@+id/monday"
@@ -60,15 +62,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/friday" />
-            </RelativeLayout>
 
-                <Button
-                    android:id="@+id/buttonSaveTime"
+                <!--deletelater-->
+                <CheckBox
+                    android:id="@+id/weekend"
+                    android:layout_toRightOf="@+id/friday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/button_group"
-                    android:text="@string/save" />
+                    android:text="kms" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/buttonSaveTime"
+                style="@style/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/button_group"
+                android:layout_centerHorizontal="true"
+                android:text="@string/save" />
 
 
 
