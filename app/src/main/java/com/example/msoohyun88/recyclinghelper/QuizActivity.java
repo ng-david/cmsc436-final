@@ -40,6 +40,9 @@ public class QuizActivity extends AppCompatActivity {
 
     private ImageView mImageView;
     private TextView mItemName;
+    //private TextView mQuestionNumber;
+    private TextView mQuestionCorrect;
+
     private int numberCorrect;
     private int questionNumber;
     private ArrayList<Item> itemList;
@@ -53,6 +56,8 @@ public class QuizActivity extends AppCompatActivity {
         mTrashButton = (Button) findViewById(R.id.trash);
         mRecycleButton = (Button) findViewById(R.id.recyclable);
         mCompostButton = (Button) findViewById(R.id.compost);
+        //mQuestionNumber = (TextView) findViewById(R.id.question_number);
+        mQuestionCorrect = (TextView) findViewById(R.id.number_correct);
 
         int primaryColor = getColor(R.color.colorPrimary);
         int greenColor = getColor(R.color.colorGreen);
@@ -66,7 +71,7 @@ public class QuizActivity extends AppCompatActivity {
         mCompostButton.setBackgroundColor(greenColor);
         mCompostButton.setTextColor(grey);
 
-        mImageView = (ImageView) findViewById(R.id.material_image);
+        //mImageView = (ImageView) findViewById(R.id.material_image);
         mItemName = (TextView) findViewById(R.id.item_name);
         itemList = new ArrayList<Item>();
 
@@ -78,9 +83,12 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String answer = ((Button)v).getText().toString().toLowerCase();
+                String actual_answer = chosenItemList.get(questionNumber).getCategory();
+
+                Log.i("QUIZ_ANSWERS", chosenItemList.get(questionNumber).getCategory());
 
                 //checks the answer key to make sure the answer is correct
-                if (chosenItemList.get(questionNumber).getCategory().equals(answer)) {
+                if (actual_answer.equals(answer)) {
                     numberCorrect++;
                 }
 
@@ -97,6 +105,8 @@ public class QuizActivity extends AppCompatActivity {
 
                 } else {
 
+                    //mQuestionNumber.setText(questionNumber+1+"");
+                    mQuestionCorrect.setText(numberCorrect+"/"+questionNumber);
                     //prepares next question and clears the check.
                     mItemName.setText(chosenItemList.get(questionNumber).getName());
                 }
@@ -166,8 +176,10 @@ public class QuizActivity extends AppCompatActivity {
             chosenItemList.add(itemList.get(current));
         }
 
+        mQuestionCorrect.setText(numberCorrect+"/"+questionNumber);
         //set the item name set to the first item in the list
         mItemName.setText(chosenItemList.get(0).getName());
+        Log.i("QUIZ_ANSWERS", chosenItemList.get(0).getCategory());
 
     }
 }
