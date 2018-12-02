@@ -23,44 +23,80 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:textSize="24dp"
-            android:id="@+id/number_correct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_centerInParent="true"
-            android:textSize="36dp"
-            android:layout_below="@+id/number_correct"
-            android:id="@+id/item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp" />
-
-        <Button
-            android:id="@+id/trash"
-            android:text="Trash"
-            android:layout_centerInParent="true"
+        <RelativeLayout
+            android:id="@+id/after_submission_screen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_name"/>
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/recyclable"
-            android:text="Recycle"
-            android:layout_centerInParent="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/trash"/>
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:id="@+id/correct_incorrect"
+                android:textSize="36dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/compost"
-            android:text="Compost"
-            android:layout_centerInParent="true"
+            <TextView
+                android:layout_margin="30dp"
+                android:textSize="18dp"
+                android:layout_below="@id/correct_incorrect"
+                android:id="@+id/description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_below="@+id/description_text"
+                android:id="@+id/next_button"
+                android:text="Next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/question_screen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/recyclable"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:textSize="24dp"
+                android:id="@+id/number_correct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:textSize="36dp"
+                android:layout_below="@+id/number_correct"
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp" />
+
+            <Button
+                android:id="@+id/trash"
+                android:text="Trash"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_name"/>
+
+            <Button
+                android:id="@+id/recyclable"
+                android:text="Recycle"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/trash"/>
+
+            <Button
+                android:id="@+id/compost"
+                android:text="Compost"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recyclable"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

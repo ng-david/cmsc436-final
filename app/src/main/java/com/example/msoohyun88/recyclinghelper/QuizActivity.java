@@ -43,6 +43,10 @@ public class QuizActivity extends AppCompatActivity {
     //private TextView mQuestionNumber;
     private TextView mQuestionCorrect;
 
+    private TextView mCorrectOrIncorrect;
+    private TextView mDescription;
+    private Button mNextButton;
+
     private int numberCorrect;
     private int questionNumber;
     private ArrayList<Item> itemList;
@@ -58,6 +62,13 @@ public class QuizActivity extends AppCompatActivity {
         mCompostButton = (Button) findViewById(R.id.compost);
         //mQuestionNumber = (TextView) findViewById(R.id.question_number);
         mQuestionCorrect = (TextView) findViewById(R.id.number_correct);
+
+        mCorrectOrIncorrect = (TextView) findViewById(R.id.correct_incorrect);
+        mDescription = (TextView) findViewById(R.id.description_text);
+        mNextButton = (Button) findViewById(R.id.next_button);
+        final RelativeLayout resultScreen = findViewById(R.id.after_submission_screen);
+        final RelativeLayout questionScreen = findViewById(R.id.question_screen);
+        resultScreen.setAlpha(0.0f);
 
         int primaryColor = getColor(R.color.colorPrimary);
         int greenColor = getColor(R.color.colorGreen);
@@ -78,6 +89,37 @@ public class QuizActivity extends AppCompatActivity {
         numberCorrect = 0;
         questionNumber = 0;
 
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (questionNumber == nQuizQuestions) {
+
+                    Intent intent = new Intent();
+                    intent.putExtra(RESULT_KEY, numberCorrect);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
+                } else {
+
+                    resultScreen.animate().setStartDelay(0);
+                    questionScreen.animate().setStartDelay(300);
+                    resultScreen.animate().alpha(0.0f);
+                    questionScreen.animate().alpha(1.0f);
+
+                    mCompostButton.setEnabled(true);
+                    mTrashButton.setEnabled(true);
+                    mRecycleButton.setEnabled(true);
+                    mNextButton.setEnabled(false);
+
+                    questionScreen.bringToFront();
+
+                    mQuestionCorrect.setText(numberCorrect + "/" + questionNumber);
+                    mItemName.setText(chosenItemList.get(questionNumber).getName());
+                }
+            }
+        });
+
         View.OnClickListener buttonClickListeners = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,26 +132,34 @@ public class QuizActivity extends AppCompatActivity {
                 //checks the answer key to make sure the answer is correct
                 if (actual_answer.equals(answer)) {
                     numberCorrect++;
+
+                    mCorrectOrIncorrect.setText("Correct!");
+                    mCorrectOrIncorrect.setTextColor(getColor(R.color.colorGreen));
+                } else {
+                    mCorrectOrIncorrect.setText("Incorrect!");
+                    mCorrectOrIncorrect.setTextColor(getColor(R.color.colorRed));
                 }
 
+                String description = chosenItemList.get(questionNumber).getDetails();
+
+                if (description.equals("")) {
+                    description = "The correct answer is " + chosenItemList.get(questionNumber).getCategory() + ".";
+                }
+
+                mDescription.setText(description);
                 questionNumber++;
 
-                if(questionNumber == nQuizQuestions) {
-                    //if all the questions were answered, finish the activity
+                questionScreen.animate().setStartDelay(0);
+                resultScreen.animate().setStartDelay(300);
+                resultScreen.animate().alpha(1.0f);
+                questionScreen.animate().alpha(0.0f);
 
-                    //returning data to original main activity
-                    Intent intent = new Intent();
-                    intent.putExtra(RESULT_KEY, numberCorrect);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                mCompostButton.setEnabled(false);
+                mTrashButton.setEnabled(false);
+                mRecycleButton.setEnabled(false);
+                mNextButton.setEnabled(true);
 
-                } else {
-
-                    //mQuestionNumber.setText(questionNumber+1+"");
-                    mQuestionCorrect.setText(numberCorrect+"/"+questionNumber);
-                    //prepares next question and clears the check.
-                    mItemName.setText(chosenItemList.get(questionNumber).getName());
-                }
+                resultScreen.bringToFront();
             }
         };
 

@@ -6,11 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.msoohyun88.recyclinghelper.database.Item;
@@ -29,7 +33,7 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private Item item;
-    private Button back;
+    private ImageButton back;
 
     //private ItemDetailsFragment.OnFragmentInteractionListener mListener;
 
@@ -70,20 +74,51 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
 
         View view = inflater.inflate(R.layout.fragment_item_details,
                 container, false);
-        back = (Button) view.findViewById(R.id.back);
+        back = (ImageButton) view.findViewById(R.id.back);
         TextView nameText= (TextView) view.findViewById(R.id.name);
         TextView categoryText= (TextView) view.findViewById(R.id.category);
         TextView detailsText = (TextView) view.findViewById(R.id.details);
+        ImageView categoryIcon = view.findViewById(R.id.categoryIcon);
 
+        // Set item name text
+        String name = getArguments().getString("name");
+        nameText.setText(name);
 
-        nameText.setText(getArguments().getString("name"));
-        detailsText.setText(getArguments().getString("details"));
-        categoryText.setText(getArguments().getString("category"));
+        // Set category text
+        String category = getArguments().getString("category");
+        categoryText.setText(category.toUpperCase());
+        if (category.equals("recycle")) {
+            categoryText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
 
+        } else if (category.equals("compost")) {
+            categoryText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
+            categoryIcon.setImageResource(R.drawable.compost);
+        } else {
+            categoryText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGray));
+            categoryIcon.setImageResource(R.drawable.trash);
+        }
+
+        // Set details
+        String details = getArguments().getString("details");
+        detailsText.setText(details);
+
+        // Back button
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        back.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    back.setImageResource(R.drawable.ic_chevron_left_black_24dp_pressed);
+                else if (event.getAction() == MotionEvent.ACTION_UP)
+                    back.setImageResource(R.drawable.ic_chevron_left_black_24dp);
+                return false;
             }
         });
 
