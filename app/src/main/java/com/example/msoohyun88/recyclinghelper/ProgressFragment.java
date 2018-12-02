@@ -30,6 +30,7 @@ public class ProgressFragment extends Fragment {
     private TextView mScore;
     private ImageView mForestGraphic;
     public static final int REQUEST = 111;
+    public static final String RESULT_KEY = "NUMBER_CORRECT";
 
     public ProgressFragment() {
         // Required empty public constructor
@@ -121,12 +122,12 @@ public class ProgressFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         //TODO: get the result (number of correct) here
-        //if (requestCode == request_Code) {
-        //    if (resultCode == RESULT_OK) {
-        //        String returnedResult = data.getData().toString();
+        if (REQUEST == requestCode) {
+            if (resultCode == RESULT_OK) {
+                int returnedResult = data.getExtras().getInt(RESULT_KEY);
                 // OR
                 // String returnedResult = data.getDataString();
-        //    }
-        //}
+            }
+        }
     }
 }
