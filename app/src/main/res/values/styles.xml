@@ -13,11 +13,28 @@
     <!--timepicker styling-->
     <style name="TimePicker" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">#000000</item>
-        <item name="colorAccent">@color/colorPrimary</item> <!--bar w the time color-->
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="android:headerBackground">@color/colorPrimary</item> <!--background behind time numbers-->
+        <item name="android:numbersSelectorColor">#6eaac6</item> <!--the clock hand color-->
+
+        <item name="android:numbersTextColor">#000000</item> <!--clock face numbers-->
+        <item name="android:numbersBackgroundColor">#e5e5e5</item> <!--clock face background color-->
        <!-- <item name="android:background">@color/colorPrimary</item>--> <!--background behind clock-->
-        <item name="android:tickMark">#ff7bac</item>
+
+        <!--Time styling-->
+        <item name="android:headerTimeTextAppearance">@style/TextAppearance.TimePickerDialogStyle.TimeLabel</item> <!-- TimePicker Time *TextAppearance* -->
+    </style>
+
+    <!--time text colors-->
+    <style name="TextAppearance.TimePickerDialogStyle.TimeLabel" parent="@android:style/TextAppearance.Material">
+        <item name="android:textSize">60sp</item> <!-- from -->
+        <item name="android:textColor">#ffffff</item>
     </style>
 
     <!--save button-->
-    <style name="saveButton"></style>
+    <style name="saveButton">
+        <item name="android:background">#97db3f</item> <!--save button color-->
+        <!--save button text-->
+    </style>
 </resources>
