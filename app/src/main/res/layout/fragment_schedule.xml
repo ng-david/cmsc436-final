@@ -39,31 +39,36 @@
                     android:id="@+id/monday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/monday"/>
+                    android:buttonTint="@color/colorGreen"
+                    android:text="@string/monday" />
                 <CheckBox
                     android:id="@+id/tuesday"
                     android:layout_toRightOf="@+id/monday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tuesday" />
+                    android:text="@string/tuesday"
+                    android:buttonTint="@color/colorGreen"/>
                 <CheckBox
                     android:id="@+id/wednesday"
                     android:layout_toRightOf="@+id/tuesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/wednesday" />
+                    android:text="@string/wednesday"
+                    android:buttonTint="@color/colorGreen"/>
                 <CheckBox
                     android:id="@+id/thursday"
                     android:layout_toRightOf="@+id/wednesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/thursday" />
+                    android:text="@string/thursday"
+                    android:buttonTint="@color/colorGreen"/>
                 <CheckBox
                     android:id="@+id/friday"
                     android:layout_toRightOf="@+id/thursday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/friday" />
+                    android:text="@string/friday"
+                    android:buttonTint="@color/colorGreen"/>
 
                 <!--deletelater, for saturday testing lmao-->
             <!--    <CheckBox
@@ -81,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/button_group"
                 android:layout_centerHorizontal="true"
-                android:text="@string/save" />
+                android:text="@string/save"
+                android:textColor="@color/colorWhite"/>
 
 
 
