@@ -164,26 +164,20 @@ public class SearchFragment extends Fragment {
         ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
         listview.setAdapter(adapter);
 
-
-       listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               Log.w(TAG, "henlo");
+           Item item = filteredList.get(i);
 
-               Item item = filteredList.get(i);
-
-
-
-               mItemDetailsFragment = new ItemDetailsFragment();
-               Bundle args = new Bundle();
-               args.putString("name",item.getName());
-               args.putString("details",item.getDetails());
-               args.putString("category",item.getCategory());
-               mItemDetailsFragment.setArguments(args);
-               loadFragment(mItemDetailsFragment);
-
+           mItemDetailsFragment = new ItemDetailsFragment();
+           Bundle args = new Bundle();
+           args.putString("name",item.getName());
+           args.putString("details",item.getDetails());
+           args.putString("category",item.getCategory());
+           mItemDetailsFragment.setArguments(args);
+           loadFragment(mItemDetailsFragment);
            }
-       });
+        });
     }
 
     private void loadFragment(Fragment fragment) {
