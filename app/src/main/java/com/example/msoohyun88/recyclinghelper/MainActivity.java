@@ -68,11 +68,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        // NOTE: Example of initializing database access object
-        ItemsDAO db = new ItemsDAO();
-        // NOTE: Example of getting information from it
-        ArrayList<Item> recycleList = db.getRecycleList();
-
     }
 
     private void loadFragment(Fragment fragment) {

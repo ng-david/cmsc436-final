@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.util.Objects;
+
 public class Item implements Comparable<Item> {
     private String name;
     private String details;
@@ -12,11 +14,26 @@ public class Item implements Comparable<Item> {
     public Item(String name, String details, String category) {
         this.name = name;
         this.category = category;
-        if (details.equals("")) {
+        if (details == null || details.equals("")) {
             this.details = name + " should be disposed of in " + category + " bins.";
         } else {
             this.details = details;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(name, item.name) &&
+                Objects.equals(category, item.category);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, category);
     }
 
     public String getName() {

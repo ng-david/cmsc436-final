@@ -1,6 +1,7 @@
 package com.example.msoohyun88.recyclinghelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 
@@ -92,6 +94,8 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.w(TAG, "WOW FOOTER CLICK");
+                Intent myIntent = new Intent(getActivity(), AddNewItem.class);
+                getActivity().startActivity(myIntent);
             }
         });
         listview.addFooterView(footerView);
@@ -159,6 +163,19 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    private ArrayList<Item> removeDuplicates(ArrayList<Item> a) {
+        HashSet<Item> s = new HashSet<>();
+        for (Item i : a) {
+            s.add(i);
+        }
+
+        ArrayList<Item> a2 = new ArrayList<>();
+        for (Item i : s) {
+            a2.add(i);
+        }
+        return a2;
+    }
+
     private void rerenderListView() {
         filteredList = new ArrayList<>();
         if(searchField.getText().toString().length() != 0) {
@@ -176,34 +193,40 @@ public class SearchFragment extends Fragment {
             }
         }
 
+        filteredList = removeDuplicates(filteredList);
+
         Collections.sort(filteredList);
 
         // Update the list with latest filteredList
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.list_item, R.id.myItemName, filteredList){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                View view = super.getView(position, convertView, parent);
+        if (getContext() != null) {
+            ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.list_item, R.id.myItemName, filteredList){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    View view = super.getView(position, convertView, parent);
 
-                TextView nameTextView = view.findViewById(R.id.myItemName);
-                String name = nameTextView.getText().toString();
-                String category = categoriesMap.get(name);
-                ImageView imageView = view.findViewById(R.id.listCategoryIcon);
+                    TextView nameTextView = view.findViewById(R.id.myItemName);
+                    String name = nameTextView.getText().toString();
+                    String category = categoriesMap.get(name);
+                    ImageView imageView = view.findViewById(R.id.listCategoryIcon);
 
-                if (category.equals("recycle")) {
-                    imageView.setImageResource(R.drawable.recycle);
+                    if (category.equals("recycle")) {
+                        imageView.setImageResource(R.drawable.recycle);
 
-                } else if (category.equals("trash")) {
-                    imageView.setImageResource(R.drawable.trash);
-                } else {
-                    imageView.setImageResource(R.drawable.compost);
+                    } else if (category.equals("trash")) {
+                        imageView.setImageResource(R.drawable.trash);
+                    } else {
+                        imageView.setImageResource(R.drawable.compost);
 
-                }
+                    }
 
-                return view;
+                    return view;
+                };
             };
-        };
+            listview.setAdapter(adapter);
 
-        listview.setAdapter(adapter);
+        }
+
+
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
