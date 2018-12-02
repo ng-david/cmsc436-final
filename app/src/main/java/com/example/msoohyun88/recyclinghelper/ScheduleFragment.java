@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class ScheduleFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String SHARED_PREF_NAME_LOL = "savedTimeName";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -85,6 +87,17 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         timePicker = (TimePicker) view.findViewById(R.id.time);
+
+        final SharedPreferences pref = this.getActivity().getSharedPreferences(SHARED_PREF_NAME_LOL, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor prefEditor = pref.edit();
+
+        int restoredHour = pref.getInt("savedHour", -1);
+        int restoredMinue = pref.getInt("savedMinute", -1);
+
+        if (restoredHour != -1 && restoredMinue != -1) {
+            timePicker.setCurrentHour(restoredHour);
+            timePicker.setCurrentMinute(restoredMinue);
+        }
 
         view.findViewById(R.id.buttonSaveTime).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +161,11 @@ public class ScheduleFragment extends Fragment {
                     Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
 
                 }
+
+                //saving user preferences
+                prefEditor.putInt("savedHour", timePicker.getHour());
+                prefEditor.putInt("savedMinute", timePicker.getMinute());
+                prefEditor.commit();
 
                 //DELETE LATER THIS FOR WEEKEND TESTING LMAO
  /*               if (((CheckBox)getView().findViewById(R.id.weekend)).isChecked()) {
