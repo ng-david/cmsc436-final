@@ -16,11 +16,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.example.msoohyun88.recyclinghelper.database.Item;
-import com.example.msoohyun88.recyclinghelper.database.ItemsDAO;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -46,8 +42,8 @@ public class SearchFragment extends Fragment {
 
     private final String TAG = "SearchFragment";
 
-    ArrayList<Item> itemList;
-    public ArrayList<String> filteredList;
+    private ArrayList<Item> itemList;
+    public ArrayList<Item> filteredList;
     public ListView listview;
     public EditText searchField;
     private ItemDetailsFragment mItemDetailsFragment;
@@ -152,13 +148,13 @@ public class SearchFragment extends Fragment {
             for (Item item : itemList) {
                 if (item.getName().toUpperCase().indexOf(searchField.getText().toString().toUpperCase()) != -1) {
                     Log.w(TAG, "Successful find while filtering for " + searchField.getText().toString());
-                    filteredList.add(item.getName());
+                    filteredList.add(item);
                 }
             }
         } else {
             // Grab all items
             for (Item item : itemList) {
-                filteredList.add(item.getName());
+                filteredList.add(item);
             }
         }
 
@@ -174,7 +170,16 @@ public class SearchFragment extends Fragment {
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                Log.w(TAG, "henlo");
 
+               Item item = filteredList.get(i);
+
+
+
                mItemDetailsFragment = new ItemDetailsFragment();
+               Bundle args = new Bundle();
+               args.putString("name",item.getName());
+               args.putString("details",item.getDetails());
+               args.putString("category",item.getCategory());
+               mItemDetailsFragment.setArguments(args);
                loadFragment(mItemDetailsFragment);
 
            }
