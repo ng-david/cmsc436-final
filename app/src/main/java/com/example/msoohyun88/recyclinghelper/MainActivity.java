@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressFragment mProgressFragment;
     private ScheduleFragment mScheduleFragment;
-    private ItemFragment mItemFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
