@@ -1,12 +1,20 @@
 package com.example.msoohyun88.recyclinghelper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.msoohyun88.recyclinghelper.database.Item;
+
 
 
 /**
@@ -20,14 +28,10 @@ import android.view.ViewGroup;
 public class ItemDetailsFragment extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private Item item;
+    private Button back;
 
-    private ItemDetailsFragment.OnFragmentInteractionListener mListener;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    //private ItemDetailsFragment.OnFragmentInteractionListener mListener;
 
 
     public ItemDetailsFragment() {
@@ -45,6 +49,7 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
         ItemDetailsFragment fragment = new ItemDetailsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -54,21 +59,41 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_details, container, false);
+
+
+
+        View view = inflater.inflate(R.layout.fragment_item_details,
+                container, false);
+        back = (Button) view.findViewById(R.id.back);
+        TextView nameText= (TextView) view.findViewById(R.id.name);
+        TextView categoryText= (TextView) view.findViewById(R.id.category);
+        TextView detailsText = (TextView) view.findViewById(R.id.details);
+
+
+        nameText.setText(getArguments().getString("name"));
+        detailsText.setText(getArguments().getString("details"));
+        categoryText.setText(getArguments().getString("category"));
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        return view;
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void onButtonPressed() {
+
+
     }
 
     @Override
@@ -85,7 +110,7 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        //mListener = null;
     }
 
     /**
