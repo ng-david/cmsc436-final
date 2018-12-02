@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -48,6 +49,7 @@ public class SearchFragment extends Fragment {
     public ArrayList<String> filteredList;
     public ListView listview;
     public EditText searchField;
+    private ItemDetailsFragment mItemDetailsFragment;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -163,6 +165,25 @@ public class SearchFragment extends Fragment {
         ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
         listview.setAdapter(adapter);
 
+
+       listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               Log.w(TAG, "henlo");
+
+               mItemDetailsFragment = new ItemDetailsFragment();
+               loadFragment(mItemDetailsFragment);
+
+           }
+       });
+    }
+
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
