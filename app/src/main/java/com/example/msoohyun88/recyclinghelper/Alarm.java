@@ -42,15 +42,15 @@ public class Alarm extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, restartMainActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_1_ID)
-                    .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntent)
 
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.mipmap.ic_launcher))
                 .setSmallIcon(R.drawable.compost)
-                    .setContentTitle("RECYCLE TIME")
-                    .setContentText("Remember to recycle!")
-                    .setColor(Color.GREEN)
-                    .setAutoCancel(true);
+                .setContentTitle("RECYCLE TIME")
+                .setContentText("Remember to recycle!")
+                .setColor(Color.GREEN)
+                .setAutoCancel(true);
 
         notificationManager.notify(MY_NOTIFICATION_ID, builder.build());
 

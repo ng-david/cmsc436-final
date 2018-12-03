@@ -33,6 +33,7 @@ public class ScheduleFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String SHARED_PREF_NAME_LOL = "savedTimeName";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -85,15 +86,31 @@ public class ScheduleFragment extends Fragment {
         final SharedPreferences.Editor prefEditor = pref.edit();
 
         int restoredHour = pref.getInt("savedHour", -1);
-        int restoredMinue = pref.getInt("savedMinute", -1);
+        int restoredMinute = pref.getInt("savedMinute", -1);
 
-        if (restoredHour != -1 && restoredMinue != -1) {
+        if (restoredHour != -1 && restoredMinute != -1) {
             timePicker.setCurrentHour(restoredHour);
-            timePicker.setCurrentMinute(restoredMinue);
+            timePicker.setCurrentMinute(restoredMinute);
         }
+
         view.findViewById(R.id.buttonSaveTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //og calendar
+                // timePicker.setIs24HourView(true);
+                 /*
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH),
+                        timePicker.getHour(),
+                        timePicker.getMinute(),
+                        0
+                );
+*/
+                // setAlarm(calendar.getTimeInMillis(), 0);
 
                 int count = 0;
 
@@ -101,7 +118,7 @@ public class ScheduleFragment extends Fragment {
                     Calendar calMon = Calendar.getInstance();
                     makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calMon.getTimeInMillis(), 1);
-                   // Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
                     count++;
 
                 }
@@ -109,31 +126,32 @@ public class ScheduleFragment extends Fragment {
                     Calendar calTues = Calendar.getInstance();
                     makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calTues.getTimeInMillis(), 2);
-                  //  Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
+                    //  Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
                     count++;
                 }
                 if (((CheckBox)getView().findViewById(R.id.wednesday)).isChecked()) {
                     Calendar calWed = Calendar.getInstance();
                     calWed = makeCalendar(calWed, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calWed.getTimeInMillis(), 3);
-                   // Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
                     count++;
                 }
                 if (((CheckBox)getView().findViewById(R.id.thursday)).isChecked()) {
                     Calendar calThurs = Calendar.getInstance();
                     calThurs = makeCalendar(calThurs, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calThurs.getTimeInMillis(), 4);
-                   // Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
                     count++;
                 }
                 if (((CheckBox)getView().findViewById(R.id.friday)).isChecked()) {
                     Calendar calFri = Calendar.getInstance();
                     calFri = makeCalendar(calFri, Calendar.FRIDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calFri.getTimeInMillis(), 5);
-                   // Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
                     count++;
                 }
 
+                //saving user preferences
                 prefEditor.putInt("savedHour", timePicker.getHour());
                 prefEditor.putInt("savedMinute", timePicker.getMinute());
                 prefEditor.commit();
@@ -150,13 +168,12 @@ public class ScheduleFragment extends Fragment {
         return view;
     }
 
-    //takes calendar and sets it up (call this on each calMon, calTues, etc)
-    //theres a weird 40sec lag so had to make up for it
+    //takes calendar and sets it up. has a weird lag
     private Calendar makeCalendar (Calendar cal, int day, int hour, int min) {
         cal.set(Calendar.DAY_OF_WEEK, day);
         cal.set(Calendar.HOUR, hour);
         cal.set(Calendar.MINUTE, min-1);
-        cal.set(Calendar.SECOND, 30);
+        cal.set(Calendar.SECOND, 40);
 
         return cal;
     }
@@ -172,7 +189,7 @@ public class ScheduleFragment extends Fragment {
         //weekly repeating alarm
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
-        Toast.makeText(getActivity(), "Reminder is set.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Alarm is set.", Toast.LENGTH_SHORT).show();
     }
 
 
