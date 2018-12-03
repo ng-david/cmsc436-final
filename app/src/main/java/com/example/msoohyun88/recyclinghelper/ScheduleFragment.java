@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,19 +31,13 @@ public class ScheduleFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String SHARED_PREF_NAME_LOL = "savedTimeName";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
-    //booleans to know which calendars to use
-    boolean mon, tues, wed, thurs, fri;
-    boolean kms;
-
-    //count number of calendars
-    int calCount = 0;
 
     TimePicker timePicker;
 
@@ -86,24 +81,19 @@ public class ScheduleFragment extends Fragment {
 
         timePicker = (TimePicker) view.findViewById(R.id.time);
 
+        final SharedPreferences pref = this.getActivity().getSharedPreferences(SHARED_PREF_NAME_LOL, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor prefEditor = pref.edit();
+
+        int restoredHour = pref.getInt("savedHour", -1);
+        int restoredMinue = pref.getInt("savedMinute", -1);
+
+        if (restoredHour != -1 && restoredMinue != -1) {
+            timePicker.setCurrentHour(restoredHour);
+            timePicker.setCurrentMinute(restoredMinue);
+        }
         view.findViewById(R.id.buttonSaveTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-        //og calendar
-               // timePicker.setIs24HourView(true);
-                 /*
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH),
-                        timePicker.getHour(),
-                        timePicker.getMinute(),
-                        0
-                );
-*/
-               // setAlarm(calendar.getTimeInMillis(), 0);
 
                 int count = 0;
 
@@ -144,6 +134,10 @@ public class ScheduleFragment extends Fragment {
                     count++;
                 }
 
+                prefEditor.putInt("savedHour", timePicker.getHour());
+                prefEditor.putInt("savedMinute", timePicker.getMinute());
+                prefEditor.commit();
+
                 if (count == 0) {
                     Toast.makeText(getContext(), "Please select a day.", Toast.LENGTH_LONG).show();
                 }
@@ -177,7 +171,7 @@ public class ScheduleFragment extends Fragment {
         //weekly repeating alarm
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
-        Toast.makeText(getActivity(), "Alarm is set.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Reminder is set.", Toast.LENGTH_SHORT).show();
     }
 
 
