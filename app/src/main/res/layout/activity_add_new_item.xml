@@ -70,7 +70,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen"
                 android:text="+ Add New Item"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </RelativeLayout>
