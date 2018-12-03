@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.msoohyun88.recyclinghelper.QuizActivity.nQuizQuestions;
 
 
 /**
@@ -31,6 +34,11 @@ public class ProgressFragment extends Fragment {
     private ImageView mForestGraphic;
     public static final int REQUEST = 111;
     public static final String RESULT_KEY = "NUMBER_CORRECT";
+    private double average = 0;
+    private int numberOfQuizzes = 0;
+
+    private static final String AVERAGE_KEY = "AVERAGE_KEY";
+    private static final String NUMBER_KEY = "NUMBER_KEY";
 
     public ProgressFragment() {
         // Required empty public constructor
@@ -53,8 +61,15 @@ public class ProgressFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
         }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        mScore.setText(String.format("%.2f", average));
     }
 
     @Override
@@ -100,6 +115,7 @@ public class ProgressFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
         mListener = null;
     }
 
@@ -125,8 +141,10 @@ public class ProgressFragment extends Fragment {
         if (REQUEST == requestCode) {
             if (resultCode == RESULT_OK) {
                 int returnedResult = data.getExtras().getInt(RESULT_KEY);
-                // OR
-                // String returnedResult = data.getDataString();
+                //only previous 3 quizzes count towards your score
+                numberOfQuizzes++;
+                average = (average*Math.min(3, numberOfQuizzes-1)+returnedResult)/Math.min(4, numberOfQuizzes);
+                mScore.setText(String.format("%.2f", average));
             }
         }
     }

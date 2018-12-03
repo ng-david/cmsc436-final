@@ -32,7 +32,7 @@ import static com.example.msoohyun88.recyclinghelper.ProgressFragment.RESULT_KEY
 
 public class QuizActivity extends AppCompatActivity {
 
-    private final static int nQuizQuestions = 5;
+    public final static int nQuizQuestions = 5;
 
     private Button mTrashButton;
     private Button mRecycleButton;
@@ -44,6 +44,7 @@ public class QuizActivity extends AppCompatActivity {
     private TextView mQuestionCorrect;
 
     private TextView mCorrectOrIncorrect;
+    private TextView mCorrectCategory;
     private TextView mDescription;
     private Button mNextButton;
 
@@ -65,6 +66,7 @@ public class QuizActivity extends AppCompatActivity {
 
         mCorrectOrIncorrect = (TextView) findViewById(R.id.correct_incorrect);
         mDescription = (TextView) findViewById(R.id.description_text);
+        mCorrectCategory = (TextView) findViewById(R.id.correct_category);
         mNextButton = (Button) findViewById(R.id.next_button);
         final RelativeLayout resultScreen = findViewById(R.id.after_submission_screen);
         final RelativeLayout questionScreen = findViewById(R.id.question_screen);
@@ -147,6 +149,21 @@ public class QuizActivity extends AppCompatActivity {
                 }
 
                 mDescription.setText(description);
+
+                String category = chosenItemList.get(questionNumber).getCategory();
+                int colorId = 0;
+
+                if (category.equals("recycle")) {
+                    colorId = getColor(R.color.colorPrimary);
+                } else if (category.equals("compost")) {
+                    colorId = getColor(R.color.colorGreen);
+                } else if (category.equals("trash")) {
+                    colorId = getColor(R.color.colorGray);
+                }
+
+                //catpalization
+                mCorrectCategory.setText(category.substring(0, 1).toUpperCase() + category.substring(1));
+                mCorrectCategory.setTextColor(colorId);
                 questionNumber++;
 
                 questionScreen.animate().setStartDelay(0);

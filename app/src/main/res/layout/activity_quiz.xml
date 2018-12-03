@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".QuizActivity">
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -38,9 +42,18 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/correct_category"
+                android:layout_margin="8dp"
+                android:textSize="24dp"
+                android:gravity="center"
+                android:layout_below="@id/correct_incorrect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
                 android:layout_margin="30dp"
                 android:textSize="18dp"
-                android:layout_below="@id/correct_incorrect"
+                android:layout_below="@id/correct_category"
                 android:id="@+id/description_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -99,6 +112,8 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>
