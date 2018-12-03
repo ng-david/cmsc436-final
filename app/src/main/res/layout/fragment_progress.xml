@@ -3,41 +3,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProgressFragment">
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context=".ProgressFragment"
+    android:background="@color/colorBackgroundGreen">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/forest_graphic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <RelativeLayout
-            android:id="@+id/top_view"
+            android:layout_marginTop = "75dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/quiz_button"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/hex_image"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:text="Quiz!" />
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/score_background" />
 
-            <TextView
-                android:id="@+id/score_text"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="13dp"
-                android:text="None"/>
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Average"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/score_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="70dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="0"/>
+
+                <Button
+                    android:layout_below="@id/score_text"
+                    android:id="@+id/quiz_button"
+                    android:textColor="@color/colorWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_background"
+                    android:textSize="14dp"
+                    android:layout_centerHorizontal="true"
+                    android:paddingHorizontal="20dp"
+                    android:text="Daily Quiz" />
+            </RelativeLayout>
+
         </RelativeLayout>
-
-        <ImageView
-            android:layout_below="@+id/top_view"
-            android:id="@+id/forest_graphic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

@@ -1,12 +1,24 @@
 package com.example.msoohyun88.recyclinghelper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.msoohyun88.recyclinghelper.database.Item;
+
 
 
 /**
@@ -20,14 +32,10 @@ import android.view.ViewGroup;
 public class ItemDetailsFragment extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private Item item;
+    private ImageButton back;
 
-    private ItemDetailsFragment.OnFragmentInteractionListener mListener;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    //private ItemDetailsFragment.OnFragmentInteractionListener mListener;
 
 
     public ItemDetailsFragment() {
@@ -45,6 +53,7 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
         ItemDetailsFragment fragment = new ItemDetailsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -54,21 +63,72 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_details, container, false);
+
+
+
+        View view = inflater.inflate(R.layout.fragment_item_details,
+                container, false);
+        back = (ImageButton) view.findViewById(R.id.back);
+        TextView nameText= (TextView) view.findViewById(R.id.name);
+        TextView categoryText= (TextView) view.findViewById(R.id.category);
+        TextView detailsText = (TextView) view.findViewById(R.id.details);
+        ImageView categoryIcon = view.findViewById(R.id.categoryIcon);
+
+        // Set item name text
+        String name = getArguments().getString("name");
+        nameText.setText(name);
+
+        // Set category text
+        String category = getArguments().getString("category");
+        categoryText.setText(category.toUpperCase());
+        if (category.equals("recycle")) {
+            categoryText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+
+        } else if (category.equals("compost")) {
+            categoryText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
+            categoryIcon.setImageResource(R.drawable.compost);
+        } else {
+            categoryText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGray));
+            categoryIcon.setImageResource(R.drawable.trash);
+        }
+
+        // Set details
+        String details = getArguments().getString("details");
+        detailsText.setText(details);
+
+        // Back button
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        back.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    back.setImageResource(R.drawable.ic_chevron_left_black_24dp_pressed);
+                else if (event.getAction() == MotionEvent.ACTION_UP)
+                    back.setImageResource(R.drawable.ic_chevron_left_black_24dp);
+                return false;
+            }
+        });
+
+        return view;
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void onButtonPressed() {
+
+
     }
 
     @Override
@@ -85,7 +145,7 @@ public class ItemDetailsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        //mListener = null;
     }
 
     /**

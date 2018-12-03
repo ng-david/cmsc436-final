@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:descendantFocusability="blocksDescendants"
                 android:layout_alignParentTop="true"
                 ></TimePicker>
 
@@ -39,29 +40,36 @@
                     android:id="@+id/monday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10sp"
                     android:buttonTint="@color/colorGreen"
                     android:text="@string/monday" />
+
                 <CheckBox
                     android:id="@+id/tuesday"
-                    android:layout_toRightOf="@+id/monday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tuesday"
-                    android:buttonTint="@color/colorGreen"/>
+                    android:layout_marginRight="10sp"
+                    android:layout_toRightOf="@+id/monday"
+                    android:buttonTint="@color/colorGreen"
+                    android:text="@string/tuesday" />
+
                 <CheckBox
                     android:id="@+id/wednesday"
-                    android:layout_toRightOf="@+id/tuesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/wednesday"
-                    android:buttonTint="@color/colorGreen"/>
+                    android:layout_marginRight="10sp"
+                    android:layout_toRightOf="@+id/tuesday"
+                    android:buttonTint="@color/colorGreen"
+                    android:text="@string/wednesday" />
+
                 <CheckBox
                     android:id="@+id/thursday"
-                    android:layout_toRightOf="@+id/wednesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/thursday"
-                    android:buttonTint="@color/colorGreen"/>
+                    android:layout_marginRight="10sp"
+                    android:layout_toRightOf="@+id/wednesday"
+                    android:buttonTint="@color/colorGreen"
+                    android:text="@string/thursday" />
                 <CheckBox
                     android:id="@+id/friday"
                     android:layout_toRightOf="@+id/thursday"
@@ -82,12 +90,15 @@
             <Button
                 android:id="@+id/buttonSaveTime"
                 style="@style/saveButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/button_group"
                 android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15sp"
+                android:layout_marginRight="15sp"
                 android:text="@string/save"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
 
 
 

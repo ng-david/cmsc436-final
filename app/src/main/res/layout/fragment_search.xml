@@ -16,14 +16,15 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
-            android:layout_marginLeft="10sp"
-            android:layout_marginRight="10sp"
-            android:layout_marginTop="10sp"
+            android:layout_marginBottom="15sp"
+            android:layout_marginLeft="15sp"
+            android:layout_marginRight="15sp"
+            android:layout_marginTop="15sp"
             android:ems="10"
-            android:hint="Search..."
+            android:hint="Search and filter..."
             android:inputType="text"
-            android:text="" />
+            android:text=""
+            android:textSize="24sp" />
 
         <RelativeLayout
             android:id="@+id/activityIndicator"

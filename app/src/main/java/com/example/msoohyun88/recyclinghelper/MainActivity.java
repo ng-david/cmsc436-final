@@ -1,5 +1,6 @@
 package com.example.msoohyun88.recyclinghelper;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,13 +18,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressFragment mProgressFragment;
     private ScheduleFragment mScheduleFragment;
-    private ItemFragment mItemFragment;
+    private SearchFragment mSearchFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
             switch (item.getItemId()) {
                 case R.id.navigation_home:
 
@@ -43,9 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
               case R.id.navigation_notifications:
-                
-                    SearchFragment search = new SearchFragment();
-                    loadFragment(search);
+
+                  if(mSearchFragment == null){
+                      mSearchFragment = new SearchFragment();
+                  }
+
+                  loadFragment(mSearchFragment);
                 
                     return true;
             }
@@ -69,11 +74,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        // NOTE: Example of initializing database access object
-        ItemsDAO db = new ItemsDAO();
-        // NOTE: Example of getting information from it
-        ArrayList<Item> recycleList = db.getRecycleList();
-
     }
 
     private void loadFragment(Fragment fragment) {
@@ -84,4 +84,8 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }

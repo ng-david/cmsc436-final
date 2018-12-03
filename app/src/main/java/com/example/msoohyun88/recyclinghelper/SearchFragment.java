@@ -1,6 +1,7 @@
 package com.example.msoohyun88.recyclinghelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.msoohyun88.recyclinghelper.database.Item;
-import com.example.msoohyun88.recyclinghelper.database.ItemsDAO;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 
 
@@ -46,8 +47,9 @@ public class SearchFragment extends Fragment {
 
     private final String TAG = "SearchFragment";
 
-    ArrayList<Item> itemList;
-    public ArrayList<String> filteredList;
+    private ArrayList<Item> itemList;
+    private HashMap<String, String> categoriesMap;
+    public ArrayList<Item> filteredList;
     public ListView listview;
     public EditText searchField;
     private ItemDetailsFragment mItemDetailsFragment;
@@ -74,8 +76,9 @@ public class SearchFragment extends Fragment {
         // Get list view
         listview = view.findViewById(R.id.listview);
 
-        // Hold a list of the DB items
+        // Hold a list and map of the DB items
         itemList = new ArrayList<>();
+        categoriesMap = new HashMap<>();
 
         // Hold a list of items to render
         filteredList = new ArrayList<>();
@@ -85,6 +88,17 @@ public class SearchFragment extends Fragment {
 
         // Text Field Change
         setUpSearchInput(view);
+
+        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+        footerView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.w(TAG, "WOW FOOTER CLICK");
+                Intent myIntent = new Intent(getActivity(), AddNewItem.class);
+                getActivity().startActivity(myIntent);
+            }
+        });
+        listview.addFooterView(footerView);
 
         return view;
     }
@@ -124,8 +138,12 @@ public class SearchFragment extends Fragment {
                 for (String k : map.keySet()) {
                     ArrayList<Map<String, String>> currList = map.get(k);
                     for (Map<String, String> itemMap : currList) {
+
                         String category = k.equals("trash") ? "trash" : k.equals("compost") ? "compost" : "recycle";
+
                         Item item = new Item(itemMap.get("name"), itemMap.get("details"), category);
+
+                        categoriesMap.put(item.getName(), item.getCategory());
                         itemList.add(item);
                     }
                 }
@@ -145,6 +163,19 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    private ArrayList<Item> removeDuplicates(ArrayList<Item> a) {
+        HashSet<Item> s = new HashSet<>();
+        for (Item i : a) {
+            s.add(i);
+        }
+
+        ArrayList<Item> a2 = new ArrayList<>();
+        for (Item i : s) {
+            a2.add(i);
+        }
+        return a2;
+    }
+
     private void rerenderListView() {
         filteredList = new ArrayList<>();
         if(searchField.getText().toString().length() != 0) {
@@ -152,33 +183,66 @@ public class SearchFragment extends Fragment {
             for (Item item : itemList) {
                 if (item.getName().toUpperCase().indexOf(searchField.getText().toString().toUpperCase()) != -1) {
                     Log.w(TAG, "Successful find while filtering for " + searchField.getText().toString());
-                    filteredList.add(item.getName());
+                    filteredList.add(item);
                 }
             }
         } else {
             // Grab all items
             for (Item item : itemList) {
-                filteredList.add(item.getName());
+                filteredList.add(item);
             }
         }
+
+        filteredList = removeDuplicates(filteredList);
 
         Collections.sort(filteredList);
 
         // Update the list with latest filteredList
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
-        listview.setAdapter(adapter);
+        if (getContext() != null) {
+            ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.list_item, R.id.myItemName, filteredList){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    View view = super.getView(position, convertView, parent);
+
+                    TextView nameTextView = view.findViewById(R.id.myItemName);
+                    String name = nameTextView.getText().toString();
+                    String category = categoriesMap.get(name);
+                    ImageView imageView = view.findViewById(R.id.listCategoryIcon);
+
+                    if (category.equals("recycle")) {
+                        imageView.setImageResource(R.drawable.recycle);
+
+                    } else if (category.equals("trash")) {
+                        imageView.setImageResource(R.drawable.trash);
+                    } else {
+                        imageView.setImageResource(R.drawable.compost);
+
+                    }
+
+                    return view;
+                };
+            };
+            listview.setAdapter(adapter);
+
+        }
 
 
-       listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               Log.w(TAG, "henlo");
+           Item item = filteredList.get(i);
 
-               mItemDetailsFragment = new ItemDetailsFragment();
-               loadFragment(mItemDetailsFragment);
-
+           mItemDetailsFragment = new ItemDetailsFragment();
+           Bundle args = new Bundle();
+           args.putString("name",item.getName());
+           args.putString("details",item.getDetails());
+           args.putString("category",item.getCategory());
+           mItemDetailsFragment.setArguments(args);
+           loadFragment(mItemDetailsFragment);
            }
-       });
+        });
+
     }
 
     private void loadFragment(Fragment fragment) {
