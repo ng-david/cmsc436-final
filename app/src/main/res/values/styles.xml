@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
@@ -34,7 +34,8 @@
 
     <!--save button-->
     <style name="saveButton">
-        <item name="android:background">@color/colorGreen</item> <!--save button color-->
+        <item name="android:background">@drawable/button_color</item>
+
         <!--save button text-->
     </style>
 </resources>

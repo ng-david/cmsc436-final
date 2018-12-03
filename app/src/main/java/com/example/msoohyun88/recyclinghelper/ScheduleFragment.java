@@ -117,35 +117,35 @@ public class ScheduleFragment extends Fragment {
                     Calendar calMon = Calendar.getInstance();
                     makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calMon.getTimeInMillis(), 1);
-                    Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
 
                 }
                 if (((CheckBox)getView().findViewById(R.id.tuesday)).isChecked()) {
                     Calendar calTues = Calendar.getInstance();
                     makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calTues.getTimeInMillis(), 2);
-                    Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
 
                 }
                 if (((CheckBox)getView().findViewById(R.id.wednesday)).isChecked()) {
                     Calendar calWed = Calendar.getInstance();
                     calWed = makeCalendar(calWed, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calWed.getTimeInMillis(), 3);
-                    Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
 
                 }
                 if (((CheckBox)getView().findViewById(R.id.thursday)).isChecked()) {
                     Calendar calThurs = Calendar.getInstance();
                     calThurs = makeCalendar(calThurs, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calThurs.getTimeInMillis(), 4);
-                    Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
 
                 }
                 if (((CheckBox)getView().findViewById(R.id.friday)).isChecked()) {
                     Calendar calFri = Calendar.getInstance();
                     calFri = makeCalendar(calFri, Calendar.FRIDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calFri.getTimeInMillis(), 5);
-                    Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -167,8 +167,8 @@ public class ScheduleFragment extends Fragment {
     private Calendar makeCalendar (Calendar cal, int day, int hour, int min) {
         cal.set(Calendar.DAY_OF_WEEK, day);
         cal.set(Calendar.HOUR, hour);
-        cal.set(Calendar.MINUTE, min);
-        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, min-1);
+        cal.set(Calendar.SECOND, 10);
 
         return cal;
     }

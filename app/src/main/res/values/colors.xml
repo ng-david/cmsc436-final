@@ -6,4 +6,8 @@
     <color name="colorWhite">#eeeeee</color>
     <color name="colorGray">#333333</color>
     <color name="colorGreen">#A8CC23</color>
+
+    <color name="button_pressed">#7b9126</color>
+    <color name="button_focused">#A8CC23</color>
+    <color name="button_default">#A8CC23</color>
 </resources>
