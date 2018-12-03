@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10sp"
-                    android:buttonTint="@color/colorGreen"
+                    android:buttonTint="@color/colorCheckbox"
                     android:text="@string/monday" />
 
                 <CheckBox
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10sp"
                     android:layout_toRightOf="@+id/monday"
-                    android:buttonTint="@color/colorGreen"
+                    android:buttonTint="@color/colorCheckbox"
                     android:text="@string/tuesday" />
 
                 <CheckBox
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10sp"
                     android:layout_toRightOf="@+id/tuesday"
-                    android:buttonTint="@color/colorGreen"
+                    android:buttonTint="@color/colorCheckbox"
                     android:text="@string/wednesday" />
 
                 <CheckBox
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10sp"
                     android:layout_toRightOf="@+id/wednesday"
-                    android:buttonTint="@color/colorGreen"
+                    android:buttonTint="@color/colorCheckbox"
                     android:text="@string/thursday" />
                 <CheckBox
                     android:id="@+id/friday"
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/friday"
-                    android:buttonTint="@color/colorGreen"/>
+                    android:buttonTint="@color/colorCheckbox"/>
 
                 <!--deletelater, for saturday testing lmao-->
             <!--    <CheckBox

@@ -5,14 +5,15 @@
     <color name="colorAccent">#777777</color>
     <color name="colorWhite">#eeeeee</color>
     <color name="colorGray">#333333</color>
-    <color name="colorGreen">#A8CC23</color>
-<<<<<<< HEAD
-
-    <color name="button_pressed">#7b9126</color>
-    <color name="button_focused">#A8CC23</color>
-    <color name="button_default">#A8CC23</color>
-=======
+    <color name="colorGreen">#AEDD85</color>
     <color name="colorRed">#ed2939</color>
     <color name="colorBackgroundGreen">#AEDD85</color>
->>>>>>> 1b18ebd77fbe9d365b9596309a21bbebc482fed0
+    <color name="colorGrassDark">#95b975</color>
+    <color name="colorCheckbox">#AEDD85</color>
+
+    <color name="button_pressed">#95b975</color>
+    <color name="button_focused">#AEDD85</color>
+    <color name="button_default">#AEDD85</color>
+
+
 </resources>

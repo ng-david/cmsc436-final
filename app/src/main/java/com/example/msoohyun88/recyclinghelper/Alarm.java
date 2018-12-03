@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -42,7 +43,10 @@ public class Alarm extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_1_ID)
                     .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.drawable.ic_one)
+
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                        R.mipmap.ic_launcher))
+                .setSmallIcon(R.drawable.compost)
                     .setContentTitle("RECYCLE TIME")
                     .setContentText("Remember to recycle!")
                     .setColor(Color.GREEN)

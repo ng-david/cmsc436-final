@@ -105,19 +105,14 @@ public class ScheduleFragment extends Fragment {
 */
                // setAlarm(calendar.getTimeInMillis(), 0);
 
-                //Each day needs own alarm/calendar
+                int count = 0;
 
-                /*make cals for the days that are checked
-                    1. create calendar for day alarm
-                    2. setup date/hour/time
-                    3. setAlarm (time from the respective calendars, unique code for pending intents)
-                  //  4. increment number of counts so u know how many pendingIntents to loop thru
-                */
                 if (((CheckBox)getView().findViewById(R.id.monday)).isChecked()) {
                     Calendar calMon = Calendar.getInstance();
                     makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calMon.getTimeInMillis(), 1);
                    // Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
+                    count++;
 
                 }
                 if (((CheckBox)getView().findViewById(R.id.tuesday)).isChecked()) {
@@ -125,37 +120,35 @@ public class ScheduleFragment extends Fragment {
                     makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calTues.getTimeInMillis(), 2);
                   //  Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
-
+                    count++;
                 }
                 if (((CheckBox)getView().findViewById(R.id.wednesday)).isChecked()) {
                     Calendar calWed = Calendar.getInstance();
                     calWed = makeCalendar(calWed, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calWed.getTimeInMillis(), 3);
                    // Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
-
+                    count++;
                 }
                 if (((CheckBox)getView().findViewById(R.id.thursday)).isChecked()) {
                     Calendar calThurs = Calendar.getInstance();
                     calThurs = makeCalendar(calThurs, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calThurs.getTimeInMillis(), 4);
                    // Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
-
+                    count++;
                 }
                 if (((CheckBox)getView().findViewById(R.id.friday)).isChecked()) {
                     Calendar calFri = Calendar.getInstance();
                     calFri = makeCalendar(calFri, Calendar.FRIDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calFri.getTimeInMillis(), 5);
                    // Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
-
+                    count++;
                 }
 
-                //DELETE LATER THIS FOR WEEKEND TESTING LMAO
- /*               if (((CheckBox)getView().findViewById(R.id.weekend)).isChecked()) {
-                    Calendar calSat = Calendar.getInstance();
-                    calSat = makeCalendar(calSat, Calendar.SATURDAY, timePicker.getHour(), timePicker.getMinute());
-                    setAlarm(calSat.getTimeInMillis(), 6);
-                    Toast.makeText(getContext(), "HAPPY DECEMBER", Toast.LENGTH_LONG).show();
-                }*/
+                if (count == 0) {
+                    Toast.makeText(getContext(), "Please select a day.", Toast.LENGTH_LONG).show();
+                }
+
+
 
             }
         });
@@ -168,7 +161,7 @@ public class ScheduleFragment extends Fragment {
         cal.set(Calendar.DAY_OF_WEEK, day);
         cal.set(Calendar.HOUR, hour);
         cal.set(Calendar.MINUTE, min-1);
-        cal.set(Calendar.SECOND, 10);
+        cal.set(Calendar.SECOND, 40);
 
         return cal;
     }
