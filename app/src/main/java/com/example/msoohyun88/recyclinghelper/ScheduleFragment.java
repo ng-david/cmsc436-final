@@ -151,11 +151,12 @@ public class ScheduleFragment extends Fragment {
     }
 
     //takes calendar and sets it up (call this on each calMon, calTues, etc)
+    //theres a weird 40sec lag so had to make up for it
     private Calendar makeCalendar (Calendar cal, int day, int hour, int min) {
         cal.set(Calendar.DAY_OF_WEEK, day);
         cal.set(Calendar.HOUR, hour);
         cal.set(Calendar.MINUTE, min-1);
-        cal.set(Calendar.SECOND, 40);
+        cal.set(Calendar.SECOND, 30);
 
         return cal;
     }
