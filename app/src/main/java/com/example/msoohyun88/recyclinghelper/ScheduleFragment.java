@@ -126,46 +126,57 @@ public class ScheduleFragment extends Fragment {
                     3. setAlarm (time from the respective calendars, unique code for pending intents)
                   //  4. increment number of counts so u know how many pendingIntents to loop thru
                 */
+
+                int count = 0;
                 if (((CheckBox)getView().findViewById(R.id.monday)).isChecked()) {
                     Calendar calMon = Calendar.getInstance();
                     makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calMon.getTimeInMillis(), 1);
-                    Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
+                    count += 1;
 
                 }
+
                 if (((CheckBox)getView().findViewById(R.id.tuesday)).isChecked()) {
                     Calendar calTues = Calendar.getInstance();
                     makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calTues.getTimeInMillis(), 2);
-                    Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
-
+//                    Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
+                    count += 1;
                 }
+
                 if (((CheckBox)getView().findViewById(R.id.wednesday)).isChecked()) {
                     Calendar calWed = Calendar.getInstance();
                     calWed = makeCalendar(calWed, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calWed.getTimeInMillis(), 3);
-                    Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
-
+//                    Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
+                    count += 1;
                 }
+
                 if (((CheckBox)getView().findViewById(R.id.thursday)).isChecked()) {
                     Calendar calThurs = Calendar.getInstance();
                     calThurs = makeCalendar(calThurs, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calThurs.getTimeInMillis(), 4);
-                    Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
-
+//                    Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
+                    count += 1;
                 }
+
                 if (((CheckBox)getView().findViewById(R.id.friday)).isChecked()) {
                     Calendar calFri = Calendar.getInstance();
                     calFri = makeCalendar(calFri, Calendar.FRIDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calFri.getTimeInMillis(), 5);
-                    Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
-
+//                    Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
+                    count += 1;
                 }
 
                 //saving user preferences
                 prefEditor.putInt("savedHour", timePicker.getHour());
                 prefEditor.putInt("savedMinute", timePicker.getMinute());
                 prefEditor.commit();
+
+                if (count == 0) {
+                    Toast.makeText(getContext(), "Please select a day to repeat.", Toast.LENGTH_LONG).show();
+                }
 
                 //DELETE LATER THIS FOR WEEKEND TESTING LMAO
  /*               if (((CheckBox)getView().findViewById(R.id.weekend)).isChecked()) {
@@ -202,7 +213,7 @@ public class ScheduleFragment extends Fragment {
         //weekly repeating alarm
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
-        Toast.makeText(getActivity(), "Alarm is set.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Reminder is set.", Toast.LENGTH_SHORT).show();
     }
 
 
