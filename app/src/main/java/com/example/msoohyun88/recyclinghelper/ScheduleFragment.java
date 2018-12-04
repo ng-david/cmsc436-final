@@ -2,12 +2,14 @@ package com.example.msoohyun88.recyclinghelper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,18 +35,12 @@ public class ScheduleFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String SHARED_PREF_NAME_LOL = "savedTimeName";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
-    //booleans to know which calendars to use
-    boolean mon, tues, wed, thurs, fri;
-    boolean kms;
-
-    //count number of calendars
-    int calCount = 0;
 
     TimePicker timePicker;
 
@@ -87,117 +83,91 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         timePicker = (TimePicker) view.findViewById(R.id.time);
-
         final SharedPreferences pref = this.getActivity().getSharedPreferences(SHARED_PREF_NAME_LOL, Context.MODE_PRIVATE);
         final SharedPreferences.Editor prefEditor = pref.edit();
 
         int restoredHour = pref.getInt("savedHour", -1);
-        int restoredMinue = pref.getInt("savedMinute", -1);
+        int restoredMinute = pref.getInt("savedMinute", -1);
 
-        if (restoredHour != -1 && restoredMinue != -1) {
-            timePicker.setCurrentHour(restoredHour);
-            timePicker.setCurrentMinute(restoredMinue);
+        if (restoredHour != -1 && restoredMinute != -1) {
+            timePicker.setHour(restoredHour);
+            timePicker.setMinute(restoredMinute);
         }
 
         view.findViewById(R.id.buttonSaveTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-        //og calendar
-               // timePicker.setIs24HourView(true);
-                 /*
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH),
-                        timePicker.getHour(),
-                        timePicker.getMinute(),
-                        0
-                );
-*/
-               // setAlarm(calendar.getTimeInMillis(), 0);
-
-                //Each day needs own alarm/calendar
-
-                /*make cals for the days that are checked
-                    1. create calendar for day alarm
-                    2. setup date/hour/time
-                    3. setAlarm (time from the respective calendars, unique code for pending intents)
-                  //  4. increment number of counts so u know how many pendingIntents to loop thru
-                */
-
                 int count = 0;
+
                 if (((CheckBox)getView().findViewById(R.id.monday)).isChecked()) {
                     Calendar calMon = Calendar.getInstance();
-                    makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
+                    calMon = makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calMon.getTimeInMillis(), 1);
-//                    Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
-                    count += 1;
+                    // Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
+                    count++;
 
                 }
-
                 if (((CheckBox)getView().findViewById(R.id.tuesday)).isChecked()) {
                     Calendar calTues = Calendar.getInstance();
-                    makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
+                    calTues = makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calTues.getTimeInMillis(), 2);
-//                    Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
-                    count += 1;
+                    //  Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
+                    count++;
                 }
-
                 if (((CheckBox)getView().findViewById(R.id.wednesday)).isChecked()) {
                     Calendar calWed = Calendar.getInstance();
                     calWed = makeCalendar(calWed, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calWed.getTimeInMillis(), 3);
-//                    Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
-                    count += 1;
+                    // Toast.makeText(getContext(), "WEDNESDAY", Toast.LENGTH_LONG).show();
+                    count++;
                 }
-
                 if (((CheckBox)getView().findViewById(R.id.thursday)).isChecked()) {
                     Calendar calThurs = Calendar.getInstance();
                     calThurs = makeCalendar(calThurs, Calendar.WEDNESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calThurs.getTimeInMillis(), 4);
-//                    Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
-                    count += 1;
+                    // Toast.makeText(getContext(), "THURSDAY", Toast.LENGTH_LONG).show();
+                    count++;
                 }
-
                 if (((CheckBox)getView().findViewById(R.id.friday)).isChecked()) {
                     Calendar calFri = Calendar.getInstance();
                     calFri = makeCalendar(calFri, Calendar.FRIDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calFri.getTimeInMillis(), 5);
-//                    Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
-                    count += 1;
+                    // Toast.makeText(getContext(), "FRIDAY", Toast.LENGTH_LONG).show();
+                    count++;
                 }
 
                 //saving user preferences
                 prefEditor.putInt("savedHour", timePicker.getHour());
                 prefEditor.putInt("savedMinute", timePicker.getMinute());
                 prefEditor.commit();
-
                 if (count == 0) {
-                    Toast.makeText(getContext(), "Please select a day to repeat.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Please select a day.", Toast.LENGTH_LONG).show();
                 }
-
-                //DELETE LATER THIS FOR WEEKEND TESTING LMAO
- /*               if (((CheckBox)getView().findViewById(R.id.weekend)).isChecked()) {
-                    Calendar calSat = Calendar.getInstance();
-                    calSat = makeCalendar(calSat, Calendar.SATURDAY, timePicker.getHour(), timePicker.getMinute());
-                    setAlarm(calSat.getTimeInMillis(), 6);
-                    Toast.makeText(getContext(), "HAPPY DECEMBER", Toast.LENGTH_LONG).show();
-                }*/
-
             }
         });
 
         return view;
     }
 
-    //takes calendar and sets it up (call this on each calMon, calTues, etc)
+    //takes calendar and sets it up. has a weird lag
     private Calendar makeCalendar (Calendar cal, int day, int hour, int min) {
+
         cal.set(Calendar.DAY_OF_WEEK, day);
-        cal.set(Calendar.HOUR, hour);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, min);
         cal.set(Calendar.SECOND, 0);
+
+/*
+        Log.d("KMS", "Day of week input...." + Integer.toString(day));
+        Log.d("KMS", "Hour input..." + Integer.toString(hour));
+
+        Log.d("KMS", "Day of week: " + Integer.toString(cal.get(Calendar.DAY_OF_WEEK)));
+        Log.d("KMS", "Day of month: " + Integer.toString(cal.get(Calendar.DATE)));
+        Log.d("KMS", "Month: " + Integer.toString(cal.get(Calendar.MONTH)));
+        Log.d("KMS", "Hour of day: " + Integer.toString(cal.get(Calendar.HOUR_OF_DAY)));
+        Log.d("KMS", "Minute: " + cal.get(Calendar.MINUTE));
+        Log.d("KMS", "Second: " + cal.get(Calendar.SECOND));*/
 
         return cal;
     }
