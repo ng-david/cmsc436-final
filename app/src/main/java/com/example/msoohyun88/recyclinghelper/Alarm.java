@@ -43,10 +43,9 @@ public class Alarm extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_1_ID)
                 .setContentIntent(pendingIntent)
-
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                        R.mipmap.ic_launcher))
-                .setSmallIcon(R.drawable.compost)
+                        R.drawable.compost))
+                .setSmallIcon(R.drawable.compost) //sets notif icon as compost icon
                 .setContentTitle("RECYCLE TIME")
                 .setContentText("Remember to recycle!")
                 .setColor(Color.GREEN)

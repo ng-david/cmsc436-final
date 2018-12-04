@@ -2,12 +2,14 @@ package com.example.msoohyun88.recyclinghelper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +83,6 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         timePicker = (TimePicker) view.findViewById(R.id.time);
-
         final SharedPreferences pref = this.getActivity().getSharedPreferences(SHARED_PREF_NAME_LOL, Context.MODE_PRIVATE);
         final SharedPreferences.Editor prefEditor = pref.edit();
 
@@ -89,34 +90,19 @@ public class ScheduleFragment extends Fragment {
         int restoredMinute = pref.getInt("savedMinute", -1);
 
         if (restoredHour != -1 && restoredMinute != -1) {
-            timePicker.setCurrentHour(restoredHour);
-            timePicker.setCurrentMinute(restoredMinute);
+            timePicker.setHour(restoredHour);
+            timePicker.setMinute(restoredMinute);
         }
 
         view.findViewById(R.id.buttonSaveTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //og calendar
-                // timePicker.setIs24HourView(true);
-                 /*
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH),
-                        timePicker.getHour(),
-                        timePicker.getMinute(),
-                        0
-                );
-*/
-                // setAlarm(calendar.getTimeInMillis(), 0);
-
                 int count = 0;
 
                 if (((CheckBox)getView().findViewById(R.id.monday)).isChecked()) {
                     Calendar calMon = Calendar.getInstance();
-                    makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
+                    calMon = makeCalendar(calMon, Calendar.MONDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calMon.getTimeInMillis(), 1);
                     // Toast.makeText(getContext(), "MONDAY", Toast.LENGTH_LONG).show();
                     count++;
@@ -124,7 +110,7 @@ public class ScheduleFragment extends Fragment {
                 }
                 if (((CheckBox)getView().findViewById(R.id.tuesday)).isChecked()) {
                     Calendar calTues = Calendar.getInstance();
-                    makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
+                    calTues = makeCalendar(calTues, Calendar.TUESDAY, timePicker.getHour(), timePicker.getMinute());
                     setAlarm(calTues.getTimeInMillis(), 2);
                     //  Toast.makeText(getContext(), "TUESDAY", Toast.LENGTH_LONG).show();
                     count++;
@@ -155,13 +141,9 @@ public class ScheduleFragment extends Fragment {
                 prefEditor.putInt("savedHour", timePicker.getHour());
                 prefEditor.putInt("savedMinute", timePicker.getMinute());
                 prefEditor.commit();
-
                 if (count == 0) {
                     Toast.makeText(getContext(), "Please select a day.", Toast.LENGTH_LONG).show();
                 }
-
-
-
             }
         });
 
@@ -170,10 +152,22 @@ public class ScheduleFragment extends Fragment {
 
     //takes calendar and sets it up. has a weird lag
     private Calendar makeCalendar (Calendar cal, int day, int hour, int min) {
+
         cal.set(Calendar.DAY_OF_WEEK, day);
-        cal.set(Calendar.HOUR, hour);
-        cal.set(Calendar.MINUTE, min-1);
-        cal.set(Calendar.SECOND, 40);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, min);
+        cal.set(Calendar.SECOND, 0);
+
+/*
+        Log.d("KMS", "Day of week input...." + Integer.toString(day));
+        Log.d("KMS", "Hour input..." + Integer.toString(hour));
+
+        Log.d("KMS", "Day of week: " + Integer.toString(cal.get(Calendar.DAY_OF_WEEK)));
+        Log.d("KMS", "Day of month: " + Integer.toString(cal.get(Calendar.DATE)));
+        Log.d("KMS", "Month: " + Integer.toString(cal.get(Calendar.MONTH)));
+        Log.d("KMS", "Hour of day: " + Integer.toString(cal.get(Calendar.HOUR_OF_DAY)));
+        Log.d("KMS", "Minute: " + cal.get(Calendar.MINUTE));
+        Log.d("KMS", "Second: " + cal.get(Calendar.SECOND));*/
 
         return cal;
     }
@@ -189,7 +183,7 @@ public class ScheduleFragment extends Fragment {
         //weekly repeating alarm
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
-        Toast.makeText(getActivity(), "Alarm is set.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Reminder is set.", Toast.LENGTH_SHORT).show();
     }
 
 
